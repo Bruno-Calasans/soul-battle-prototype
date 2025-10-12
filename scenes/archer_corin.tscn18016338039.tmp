@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://belwv3xu53srf"]
+
+[ext_resource type="PackedScene" uid="uid://eqmw8w7x68jv" path="res://scenes/creature.tscn" id="1_kakht"]
+[ext_resource type="Script" uid="uid://l2u4s4w4mf34" path="res://archer_corin.gd" id="2_31ytv"]
+
+[node name="ArcherCorin" instance=ExtResource("1_kakht")]
+script = ExtResource("2_31ytv")

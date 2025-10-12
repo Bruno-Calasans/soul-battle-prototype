@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://by6mlson3xatu"]
+
+[ext_resource type="Script" uid="uid://b8rwqtsowi0d8" path="res://scenes/test.gd" id="1_bl13t"]
+[ext_resource type="PackedScene" uid="uid://belwv3xu53srf" path="res://cards/creature/archer_corin/archer_corin.tscn" id="1_errlg"]
+[ext_resource type="PackedScene" uid="uid://dvhy66r4bfo4g" path="res://cards/creature/puffy_cute/puff_cute.tscn" id="3_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://cdhdgm5jv28xy" path="res://cards/creature/dwarf/dwarf.tscn" id="4_74lek"]
+
+[node name="TestScene" type="Node2D"]
+script = ExtResource("1_bl13t")
+
+[node name="CardsContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 648.0
+
+[node name="ArcherCorin" parent="CardsContainer" instance=ExtResource("1_errlg")]
+can_attack = true
+can_use_special_atk = true
+can_dodge = true
+
+[node name="ArcherCorin2" parent="CardsContainer" instance=ExtResource("1_errlg")]
+visible = false
+position = Vector2(736, 4)
+can_attack = true
+can_use_special_atk = true
+can_dodge = true
+
+[node name="PuffCute" parent="CardsContainer" instance=ExtResource("3_iyx0m")]
+visible = false
+position = Vector2(738, 3)
+can_attack = true
+can_use_special_atk = true
+can_dodge = true
+
+[node name="Dwarf" parent="CardsContainer" instance=ExtResource("4_74lek")]
+position = Vector2(735, 8)
+can_attack = true
+can_use_special_atk = true
+can_dodge = true
+
+[node name="Buttons" type="VBoxContainer" parent="CardsContainer"]
+layout_mode = 0
+offset_left = 447.0
+offset_top = 173.0
+offset_right = 710.0
+offset_bottom = 377.0
+alignment = 1
+
+[node name="Attack" type="Button" parent="CardsContainer/Buttons"]
+layout_mode = 2
+text = "Attack"
+
+[node name="Special" type="Button" parent="CardsContainer/Buttons"]
+layout_mode = 2
+text = "Special Attack"
+
+[node name="Ultimate" type="Button" parent="CardsContainer/Buttons"]
+layout_mode = 2
+text = "Ultimate Attack"
+
+[node name="Next turn" type="Button" parent="CardsContainer/Buttons"]
+layout_mode = 2
+text = "Next turn"
+
+[node name="Heal" type="Button" parent="CardsContainer/Buttons"]
+layout_mode = 2
+text = "Heal first card by 10"
+
+[connection signal="on_creature_is_destroyed" from="CardsContainer/ArcherCorin" to="CardsContainer/ArcherCorin" method="_on_on_creature_is_destroyed"]
+[connection signal="on_creature_is_destroyed" from="CardsContainer/ArcherCorin2" to="CardsContainer/ArcherCorin2" method="_on_on_creature_is_destroyed"]
+[connection signal="pressed" from="CardsContainer/Buttons/Attack" to="." method="on_basic_atk_btn_pressed"]
+[connection signal="pressed" from="CardsContainer/Buttons/Special" to="." method="on_basic_special_atk_btn_pressed"]
+[connection signal="pressed" from="CardsContainer/Buttons/Next turn" to="." method="on_next_button_btn_pressed"]
+[connection signal="pressed" from="CardsContainer/Buttons/Heal" to="." method="_on_heal_pressed"]

@@ -1,0 +1,206 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8jkchxwm3bjo"]
+
+[ext_resource type="Script" uid="uid://d15isrbd7bj30" path="res://scripts/card.gd" id="1_d81rb"]
+[ext_resource type="Texture2D" uid="uid://loejcsv6msvb" path="res://assets/card/general/card_circle.svg" id="2_6u4wf"]
+[ext_resource type="Texture2D" uid="uid://bnvv0kdb5eeim" path="res://assets/creature/rarity_base_card/common_creature.png" id="2_sy11y"]
+[ext_resource type="Texture2D" uid="uid://xuqq05k7xq4r" path="res://assets/creature/img/baiacu_fofinho.jpg" id="3_6ligt"]
+[ext_resource type="Texture2D" uid="uid://obaiyn37bxgq" path="res://assets/creature/type_icon/skill.svg" id="5_sy11y"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvopj"]
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1yd6c"]
+bg_color = Color(0.28627452, 0.28235295, 0.28235295, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.19665265, 0.1935561, 0.1935561, 1)
+shadow_size = 12
+
+[node name="Card" type="Node2D"]
+script = ExtResource("1_d81rb")
+
+[node name="CardTexture" type="TextureRect" parent="."]
+clip_contents = true
+offset_right = 527.0
+offset_bottom = 881.0
+texture = ExtResource("2_sy11y")
+expand_mode = 1
+
+[node name="CardImgContainer" type="Panel" parent="CardTexture"]
+clip_children = 2
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.51000005
+offset_bottom = -0.3100586
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nvopj")
+
+[node name="CardImg" type="TextureRect" parent="CardTexture/CardImgContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_6ligt")
+expand_mode = 1
+
+[node name="CardExtraInfoContainer" type="VBoxContainer" parent="CardTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -62.5
+offset_right = 100.0
+offset_bottom = 62.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 45
+alignment = 1
+
+[node name="CardNamePanel" type="Panel" parent="CardTexture/CardExtraInfoContainer"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_1yd6c")
+
+[node name="CardNameLabel" type="Label" parent="CardTexture/CardExtraInfoContainer/CardNamePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Card Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardTagPanel" type="Panel" parent="CardTexture/CardExtraInfoContainer"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1yd6c")
+
+[node name="CardTagLabel" type="Label" parent="CardTexture/CardExtraInfoContainer/CardTagPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+text = "Humano "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardBasicInfo" type="VBoxContainer" parent="CardTexture"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.015000001
+anchor_top = 0.020000001
+anchor_right = 0.133
+anchor_bottom = 0.209
+offset_left = 0.09499979
+offset_top = 0.37999916
+offset_right = -1.0910034
+offset_bottom = -0.12901306
+theme_override_constants/separation = 8
+
+[node name="CardSoulCostTexture" type="TextureRect" parent="CardTexture/CardBasicInfo"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_6u4wf")
+expand_mode = 1
+
+[node name="CardSoulCostLabel" type="Label" parent="CardTexture/CardBasicInfo/CardSoulCostTexture"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -21.0
+offset_right = 15.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CardTypeTexture" type="TextureRect" parent="CardTexture/CardBasicInfo"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_6u4wf")
+expand_mode = 1
+
+[node name="CardTypeIcon" type="TextureRect" parent="CardTexture/CardBasicInfo/CardTypeTexture"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("5_sy11y")
+expand_mode = 1
+
+[node name="CardDescContainer" type="Control" parent="CardTexture"]
+layout_mode = 1
+anchor_left = 0.044000003
+anchor_top = 0.624
+anchor_right = 0.96400005
+anchor_bottom = 0.9110001
+offset_left = -0.18800163
+offset_top = 0.25598145
+offset_right = -0.028015137
+offset_bottom = 0.40893555
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardDescLabel" type="RichTextLabel" parent="CardTexture/CardDescContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[b]Passivo:[/b]
+Quando tiver 50% da vida ou menos, aumenta o ataque deste card em +4.
++200% de resistência a sangramento.
+Todos os ataques têm 20% de causar [color=#ff0000][u]Sangramento II[/u][/color]
+
+[b]Masoquismo (especial): [/b]
+perca 4 pontos de vida e ataque com dano físico de 20.
+
+[b]Dança de Sangue (ultimato): [/b]
+ataque duas vezes com 10 de ataque físico ."

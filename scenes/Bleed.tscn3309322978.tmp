@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://deui67pxiydo1"]
+
+[ext_resource type="PackedScene" uid="uid://bsg48442cd8ft" path="res://scenes/status_effect.tscn" id="1_rh0o5"]
+[ext_resource type="Script" uid="uid://qi76gcmdwuh7" path="res://scripts/status_effect/bleed/bleed_effect.gd" id="2_yya64"]
+
+[node name="Bleed" instance=ExtResource("1_rh0o5")]
+script = ExtResource("2_yya64")
+
+[node name="EffectLevelLabel" parent="EffectTexture/EffectIcon/EffectLevel" index="0"]
+text = "1"

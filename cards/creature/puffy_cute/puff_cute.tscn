@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvhy66r4bfo4g"]
+
+[ext_resource type="PackedScene" uid="uid://eqmw8w7x68jv" path="res://scenes/creature.tscn" id="1_8ucf3"]
+[ext_resource type="Script" uid="uid://dvex7o1tvq4h7" path="res://cards/creature/puffy_cute/puff_cute.gd" id="2_7743s"]
+
+[node name="PuffCute" instance=ExtResource("1_8ucf3")]
+script = ExtResource("2_7743s")

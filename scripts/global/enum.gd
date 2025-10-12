@@ -1,0 +1,101 @@
+class_name Enum
+
+# Card
+enum CARD_VARIATION {
+	CREATURE,
+	SPELL,
+	STRUCTURE
+}
+
+enum CARD_RARITY {
+	COMMON,
+	LEGENDARY,
+	DIVINE
+}
+
+const CARD_RARITY_NAMES = {
+	CARD_RARITY.COMMON: 'Comum',
+	CARD_RARITY.LEGENDARY: 'Lendário',
+	CARD_RARITY.DIVINE: 'Divino',
+	
+}
+
+enum DMG_TYPE {
+	PHYSICAL,
+	EARTH,
+	WIND,
+	FIRE,
+	WATER,
+	COLD,
+	LIGHT,
+	DARK,
+	ELETRICITY,
+	DIRECT
+}
+
+# Creature
+enum CREATURE_ATK_TYPE {
+	BASIC,
+	SPECIAL,
+	ULTIMATE
+}
+
+enum CREATURE_RACE {
+	FISH,
+	HUMAN,
+	DEMON,
+	ANGEL,
+	MACHINE,
+	ELEMENTAL,
+	INSECT,
+	ANIMAL,
+	UNDEAD,
+	BEAST,
+	DRAGON,
+}
+
+const CREATURE_RACE_NAMES = {
+	CREATURE_RACE.FISH: 'Peixe',
+	CREATURE_RACE.HUMAN: 'Humano'
+}
+
+enum CREATURE_TYPE {
+	SKILL,
+	MYSTIC,
+	TECH,
+	ANIMAL
+}
+
+const CREATURE_TYPE_NAMES = {
+	CREATURE_TYPE.SKILL: 'Habilidade',
+	CREATURE_TYPE.MYSTIC: 'Místico',
+	CREATURE_TYPE.TECH: 'Tecnológico',
+	CREATURE_TYPE.ANIMAL: 'Animal',
+}
+
+const CREATURE_TYPE_ICONS = {
+	CREATURE_TYPE.SKILL:  "res://assets/creature/type_icon/skill.svg",
+	CREATURE_TYPE.MYSTIC: "res://assets/creature/type_icon/mystic.svg",
+	CREATURE_TYPE.ANIMAL: "res://assets/creature/type_icon/animal.svg"
+}
+
+
+const CREATURE_DMG_TYPE_ICONS = {
+	DMG_TYPE.PHYSICAL:"res://assets/card/dmg_types/physical.svg",
+	DMG_TYPE.FIRE: "res://assets/card/dmg_types/fire.svg",
+	DMG_TYPE.EARTH: "res://assets/card/dmg_types/earth.png"
+}
+
+# effect
+enum EFFECT_TYPE {
+	BUFF,
+	DEBUFF
+}
+
+enum REGEN_SOURCE {
+	CREATURE_DMG_RESISTENCE,
+	CREATURE_PASSIVE,
+	CREATURE_ACTIVE,
+	SPELL_EFFECT,
+	STRUCTURE_EFFECT
+}
