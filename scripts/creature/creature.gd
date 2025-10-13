@@ -17,10 +17,13 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @onready var passive_skills: CreaturePassiveSkill
 @onready var special_skill: CreatureSpecialSkill
 @onready var ultimate_skill: CreatureUltimateSkill
-@onready var effects_manager: CreatureEffectsManager = $CreatureEffectsManager
+
+
 @export var can_attack: bool = true
 @export var can_use_special_atk: bool = true
+@export var can_use_ultimate_atk: bool = true
 @export var can_dodge: bool = true
+@export var can_heal: bool = true
 
 
 # creature card textures and labels 
@@ -29,7 +32,7 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @onready var health_label: Label = $CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureHealthContainer/CreatureHealthLabel
 @onready var physical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/PhysicalArmor/CreaturePhysicalArmorLabel
 @onready var magical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/MagicalArmor/CreatureMagicallArmorLabel
-
+@onready var effects_manager: CreatureEffectsManager = $CardTexture/CreatureEffectsManager
 
 func _ready() -> void:
 	config({
@@ -45,14 +48,14 @@ func _ready() -> void:
 		'race': CREATURE_RACE.HUMAN,
 		'dmg_type': DMG_TYPE.FIRE
 	})
-
+	
 
 func config(config: Dictionary[String, Variant]):
 	
-	# create instances
+	# create basic instances
 	status = CreatureStatus.new()
 	
-	# main creature card config
+	# main card config
 	set_card_name(config['name'])
 	set_card_desc(config['desc'])
 	set_soul_cost(config['soul_cost'])
@@ -161,6 +164,7 @@ func set_dmg_type_icon(dmg_type: DMG_TYPE):
 		dmg_type_icon.texture = texture
 		
 	
+	
 func do_direct_damage(dmg_value: int):
 	#print('Doing direct damage  = ' + str(dmg_value))
 	status.modify_health_by(-dmg_value)
@@ -193,6 +197,7 @@ func do_magical_damage(dmg_value: int, attacker: CreatureCard):
 		status.set_magical_armor_after_dmg(dmg_value)
 
 
+# This creature takes damage
 func damage(dmg: Damage):
 	
 	# apply damage resistence
@@ -223,15 +228,23 @@ func damage(dmg: Damage):
 	update_labels()
 	
 	
-func regen(source: Enum.REGEN_SOURCE, health: int):
-	var source_chance: Dictionary = status.regeneration.get_source_chance(source)
-	var health_multiplier: float = source_chance['current_chance'] / 100
-	var heal_value = floor(health * health_multiplier)
+# Heal this creature
+func regen(source: Enum.REGEN_SOURCE, health: int) -> bool:
+	if !can_heal: return false
+	
+	var regen_source: Dictionary = status.regeneration.get_source_chance(source)
+	var health_multiplier: float = regen_source['current_chance'] / 100
+	var heal_value: int = round(health * health_multiplier)
+	
 	status.modify_health_by(heal_value)
 	update_health_label()
+	return true
 
 	
-func do_basic_atk(target: CreatureCard):
+func do_basic_atk(target: CreatureCard) -> bool:
+	
+	if !can_attack: return false
+	
 	var dmg = Damage.new(status.current_atk, status.dmg_type, target, self)
 	target.damage(dmg)
 	
@@ -239,21 +252,21 @@ func do_basic_atk(target: CreatureCard):
 	if passive_skills and passive_skills.basic_atk_effect:
 		passive_skills.basic_atk_effect.apply(self, target)
 		
+	return true
+		
 
 func do_special_atk(target: CreatureCard):
-	if special_skill and can_attack:
+	if can_attack and can_use_special_atk and special_skill:
 		special_skill.execute(target)
 	
 	
 func do_ultimate_atk(target: CreatureCard):
-	if ultimate_skill:
+	if can_attack and can_use_ultimate_atk and ultimate_skill:
 		ultimate_skill.execute(target)
 	
 	
-# Function to attack others cards
-func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE):
-	
-	print('Can attack = ', can_attack)
+# This creature attacks others cards 
+func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
 	
 	if !can_attack: 
 		print(card_name, ' cant attack')
@@ -275,7 +288,6 @@ func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE):
 	# ultimate atk
 	if atk_type == Enum.CREATURE_ATK_TYPE.ULTIMATE:
 		do_ultimate_atk(target)
-		
 		
 	return true
 

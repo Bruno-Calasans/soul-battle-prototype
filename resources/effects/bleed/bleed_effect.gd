@@ -13,16 +13,16 @@ const BLEED_STATUS_URL = {
 func _init(level: int, turns: int):
 	base_name = 'Bleed'
 	type = EFFECT_TYPE.DEBUFF
-	set_effect_icon("res://assets/status_effect/bleed.png")
-	set_status(2)
+	icon_url = "res://assets/status_effect/bleed.png"
+	set_effect_icon(icon_url)
 	set_status(level)
 	set_total_turns(turns)
-	
+	config_tooltip(status.name, icon_url, status.desc)
 	
 	
 func set_status(level: int):
 	status = load(BLEED_STATUS_URL[level])
-	set_effect_level(level)
+	set_effect_level_text(level)
 	
 	
 func execute(target: CreatureCard, origin: CreatureCard = null):

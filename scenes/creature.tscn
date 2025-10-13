@@ -12,6 +12,11 @@
 
 [node name="CreatureCard" instance=ExtResource("1_rl551")]
 script = ExtResource("2_3ge22")
+can_attack = true
+can_use_special_atk = true
+can_use_ultimate_atk = true
+can_dodge = true
+can_heal = true
 
 [node name="CardTexture" parent="." index="0"]
 offset_right = 414.0
@@ -132,7 +137,19 @@ size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 20
 text = "10"
 
-[node name="CreatureEffectsManager" type="Node2D" parent="." index="1"]
+[node name="CreatureEffectsManager" type="Node2D" parent="CardTexture" index="5"]
 script = ExtResource("6_k15pb")
+
+[node name="ActiveEffectsContainer" type="FlowContainer" parent="CardTexture/CreatureEffectsManager" index="0"]
+offset_left = 108.0
+offset_top = 31.0
+offset_right = 383.0
+offset_bottom = 227.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 50
+vertical = true
+reverse_fill = true
 
 [connection signal="on_creature_is_destroyed" from="." to="." method="_on_creature_is_destroyed"]

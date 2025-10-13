@@ -9,12 +9,12 @@ func _init():
 
 func execute(target: CreatureCard):
 	
-	# do damage
+	# magical earth damage
 	var dmg = Damage.new(3, Enum.DMG_TYPE.EARTH, target, null)
 	target.damage(dmg)
 	
-	# apply stun
+	# chance to apply stun
 	if Utils.calc_chance(30):
-		var stun = StunEffect.new(3)
+		var stun = StunEffect.create(2)
 		target.effects_manager.add_effect(stun)
-		
+		print('Apply stun')

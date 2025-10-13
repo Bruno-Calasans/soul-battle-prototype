@@ -1,5 +1,5 @@
 extends Resource
-class_name RegenerationSource
+class_name RegenerationStatus
 
 const REGEN_SOURCE = Enum.REGEN_SOURCE
 

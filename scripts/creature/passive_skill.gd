@@ -10,4 +10,4 @@ var basic_atk_effect: BasicAtkEffectPassiveSkill = null
 var dodge: DodgePassiveSkill = null
 var spike: SpikePassiveSkill = null
 var destruction_effect: DestructionEffectSkill = null
-var passive_regeneration: RegenerationPassiveSkill = null
+var passive_regeneration: RegenHealthPassiveSkill = null

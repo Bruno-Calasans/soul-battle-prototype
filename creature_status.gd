@@ -25,13 +25,13 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 
 @export var dmg_resistence: DmgResistence = null
 @export var debuff_immunity: DebuffImmunity = null
-@export var regeneration: RegenerationSource = null
+@export var regeneration: RegenerationStatus = null
 
 
 func _init():
 	dmg_resistence = DmgResistence.new() 
 	debuff_immunity = DebuffImmunity.new()
-	regeneration = RegenerationSource.new()
+	regeneration = RegenerationStatus.new()
 
 	
 func set_base_atk(value: int):

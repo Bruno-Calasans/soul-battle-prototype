@@ -1,7 +1,7 @@
 extends Effect
 class_name PoisonEffect
 
-var status: PoisonStatus = null
+var status: PoisonStatus
 
 var POISON_STATUS_URL = {
 	1: "res://resources/effects/poison/status/poison_1.tres",
@@ -13,14 +13,16 @@ func _init(level: int, turns: int):
 	status = PoisonStatus.new()
 	base_name = 'Poison'
 	type = EFFECT_TYPE.DEBUFF
-	set_effect_icon("res://assets/status_effect/poison.png")
+	icon_url = "res://assets/status_effect/poison.png"
+	set_effect_icon(icon_url)
 	set_total_turns(turns)
 	set_status(level)
+	config_tooltip(status.name, icon_url, status.desc, turns)
 	
 
 func set_status(level: int):
 	status = load(POISON_STATUS_URL[level])
-	set_effect_level(level)
+	set_effect_level_text(level)
 	
 	
 func apply(target: CreatureCard, origin: CreatureCard = null):

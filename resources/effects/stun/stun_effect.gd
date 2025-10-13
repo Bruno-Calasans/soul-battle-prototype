@@ -1,12 +1,23 @@
 extends Effect
 class_name StunEffect
 
-func _init(turns: int) -> void:
+
+static func create(turns: int):
+	var stun_scene: PackedScene = preload("res://resources/effects/stun/stun.tscn")
+	var stun: StunEffect = stun_scene.instantiate()
+	stun.call_deferred('config', turns)
+	return stun
+	
+
+func config(turns: int) -> void:
 	base_name = 'Stun'
 	type = EFFECT_TYPE.DEBUFF
-	set_effect_icon("res://assets/status_effect/stun.png")
+	icon_url = "res://assets/status_effect/stun.png"
+	desc = 'Não pode atacar, nem esquivar'
+	set_effect_icon(icon_url)
 	set_total_turns(turns)
 	hide_effect_level()
+	config_tooltip(base_name, icon_url, desc, turns)
 	
 	
 func apply(target: CreatureCard, origin: CreatureCard = null):
