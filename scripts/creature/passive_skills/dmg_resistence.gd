@@ -44,26 +44,28 @@ func get_resistence(type: DMG_TYPE):
 	
 func apply_dmg_resistence(dmg: Damage):
 	var resistence = get_resistence(dmg.type)
-	print('target resistence = ' + str(resistence))
+	if resistence == 0: 
+		print('Creature has not damage resistence to this type of damage')
+		return
 	
 	# decreases damage (positive resistence)
 	if resistence > 0 and resistence <= 100:
-		var dmg_multiplier = abs(resistence) / 100
-		var reduced_dmg_value = dmg.value * dmg_multiplier
+		var dmg_multiplier = resistence / 100
+		var reduced_dmg_value = round(dmg.value * dmg_multiplier)
 		dmg.value = max(1, dmg.value - reduced_dmg_value)
 		print('Decreases damage = '  + str(reduced_dmg_value))
 	
 	# cure target
-	elif resistence > 100:
+	if resistence > 100:
 		var health_multiplier = resistence / 100
-		var extra_health = floor(dmg.value * health_multiplier)
-		dmg.target.status.modify_health_by(extra_health)
-		dmg.value = 1
+		var extra_health = round(dmg.value * health_multiplier)
+		dmg.target.regen(Enum.REGEN_SOURCE.CREATURE_PASSIVE, extra_health)
 		print('Heal from damage')
 		
 	# increases damage (negative resistence)
-	else:
-		var increased_dmg_value = dmg.value * (abs(resistence) / 100)
+	if resistence < 0:
+		var dmg_multiplier: float = abs(resistence) / 100
+		var increased_dmg_value: int = round(dmg.value * dmg_multiplier)
 		dmg.value = max(1, dmg.value + increased_dmg_value)
 		print('Increases damage = ' + str(increased_dmg_value))
 	

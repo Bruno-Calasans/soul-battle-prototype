@@ -17,7 +17,7 @@ func _init(level: int, turns: int):
 	set_effect_icon(icon_url)
 	set_status(level)
 	set_total_turns(turns)
-	config_tooltip(status.name, icon_url, status.desc)
+	config_tooltip(status.name, icon_url, status.desc, turns)
 	
 	
 func set_status(level: int):

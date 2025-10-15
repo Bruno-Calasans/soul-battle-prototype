@@ -21,6 +21,11 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @export var race: CREATURE_RACE = CREATURE_RACE.HUMAN
 @export var dmg_type: DMG_TYPE = DMG_TYPE.PHYSICAL
 @export var type: CREATURE_TYPE = CREATURE_TYPE.SKILL
+@export var can_attack: bool = true
+@export var can_use_special_atk: bool = true
+@export var can_use_ultimate_atk: bool = true
+@export var can_dodge: bool = true
+@export var can_heal: bool = true
 
 
 @export var dmg_resistence: DmgResistence = null

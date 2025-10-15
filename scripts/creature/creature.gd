@@ -19,13 +19,6 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @onready var ultimate_skill: CreatureUltimateSkill
 
 
-@export var can_attack: bool = true
-@export var can_use_special_atk: bool = true
-@export var can_use_ultimate_atk: bool = true
-@export var can_dodge: bool = true
-@export var can_heal: bool = true
-
-
 # creature card textures and labels 
 @onready var dmg_type_icon: TextureRect = $CardTexture/CardBasicInfo/CreatureDmgTypeTexture/CreatureDmgTypeIcon
 @onready var atk_label: Label = $CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureAtkContainer/CreatureAtkLabel
@@ -33,6 +26,8 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @onready var physical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/PhysicalArmor/CreaturePhysicalArmorLabel
 @onready var magical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/MagicalArmor/CreatureMagicallArmorLabel
 @onready var effects_manager: CreatureEffectsManager = $CardTexture/CreatureEffectsManager
+@onready var popup: CreaturePopupNumber = $FloatingPopupPosition
+
 
 func _ready() -> void:
 	config({
@@ -49,6 +44,7 @@ func _ready() -> void:
 		'dmg_type': DMG_TYPE.FIRE
 	})
 	
+
 
 func config(config: Dictionary[String, Variant]):
 	
@@ -80,7 +76,7 @@ func update_icons_and_imgs():
 	update_card_img()
 	update_creature_type_icon()
 	update_creature_dmg_type_icon()
-		
+	
 		
 func update_labels():
 	update_card_name_label()
@@ -114,7 +110,10 @@ func update_atk_label():
 	var base_atk = status.base_atk
 	
 	if(atk_label and atk_label.ready):
+		
 		atk_label.set_text(str(current_atk))
+		Utils.set_label_font_color(atk_label, Color.WHITE)
+		
 		if current_atk < base_atk:
 			Utils.set_label_font_color(atk_label, Color.RED)
 			
@@ -127,7 +126,10 @@ func update_health_label():
 	var base_health = status.base_health
 	
 	if(health_label and health_label.ready):
+		
 		health_label.set_text(str(current_health))
+		Utils.set_label_font_color(health_label, Color.WHITE)
+		
 		if current_health < base_health:
 				Utils.set_label_font_color(health_label, Color.RED)
 		if current_health > base_health:
@@ -140,11 +142,14 @@ func update_physical_armor_label():
 	
 	if(physical_armor_label and physical_armor_label.ready):
 		physical_armor_label.set_text(str(current_physical_armor))
+		Utils.set_label_font_color(physical_armor_label, Color.WHITE)
+		
 		if current_physical_armor < base_physical_armor:
 			Utils.set_label_font_color(physical_armor_label, Color.RED)
 		if current_physical_armor > base_physical_armor:
 			Utils.set_label_font_color(physical_armor_label, Color.GREEN)
-
+		
+		
 
 func update_magical_armor_label():
 	var current_magical_armor = status.current_magical_armor
@@ -164,10 +169,9 @@ func set_dmg_type_icon(dmg_type: DMG_TYPE):
 		dmg_type_icon.texture = texture
 		
 	
-	
 func do_direct_damage(dmg_value: int):
-	#print('Doing direct damage  = ' + str(dmg_value))
 	status.modify_health_by(-dmg_value)
+	popup.popup_damage(dmg_value)
 	
 
 func do_physical_damage(dmg_value: int, attacker: CreatureCard):
@@ -182,6 +186,7 @@ func do_physical_damage(dmg_value: int, attacker: CreatureCard):
 		
 	else:
 		status.set_physical_armor_after_dmg(dmg_value)
+		popup.popup_physical_armor_damage(dmg_value)
 	
 	
 func do_magical_damage(dmg_value: int, attacker: CreatureCard):
@@ -195,6 +200,7 @@ func do_magical_damage(dmg_value: int, attacker: CreatureCard):
 		
 	else:
 		status.set_magical_armor_after_dmg(dmg_value)
+		popup.popup_magical_armor_damage(dmg_value)
 
 
 # This creature takes damage
@@ -221,7 +227,6 @@ func damage(dmg: Damage):
 		
 		
 	if status.current_health == 0:
-		print('creature is dead = ', card_name)
 		on_creature_is_destroyed.emit(dmg.origin, self)
 	
 	# after dmgs
@@ -230,7 +235,7 @@ func damage(dmg: Damage):
 	
 # Heal this creature
 func regen(source: Enum.REGEN_SOURCE, health: int) -> bool:
-	if !can_heal: return false
+	if !status.can_heal: return false
 	
 	var regen_source: Dictionary = status.regeneration.get_source_chance(source)
 	var health_multiplier: float = regen_source['current_chance'] / 100
@@ -238,12 +243,15 @@ func regen(source: Enum.REGEN_SOURCE, health: int) -> bool:
 	
 	status.modify_health_by(heal_value)
 	update_health_label()
+	
+	if popup:
+		popup.popup_heal(health)
 	return true
 
 	
 func do_basic_atk(target: CreatureCard) -> bool:
 	
-	if !can_attack: return false
+	if !status.can_attack: return false
 	
 	var dmg = Damage.new(status.current_atk, status.dmg_type, target, self)
 	target.damage(dmg)
@@ -256,20 +264,20 @@ func do_basic_atk(target: CreatureCard) -> bool:
 		
 
 func do_special_atk(target: CreatureCard):
-	if can_attack and can_use_special_atk and special_skill:
+	if status.can_attack and status.can_use_special_atk and special_skill:
 		special_skill.execute(target)
 	
 	
 func do_ultimate_atk(target: CreatureCard):
-	if can_attack and can_use_ultimate_atk and ultimate_skill:
+	if status.can_attack and status.can_use_ultimate_atk and ultimate_skill:
 		ultimate_skill.execute(target)
 	
 	
 # This creature attacks others cards 
 func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
 	
-	if !can_attack: 
-		print(card_name, ' cant attack')
+	if !status.can_attack: 
+		print(card_name, " can't attack")
 		return false
 	
 	# check target dodge skill

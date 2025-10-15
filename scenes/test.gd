@@ -17,9 +17,9 @@ class_name Test
 
 
 @onready var card1 = $CardsContainer/ArcherCorin as CreatureCard
-#@onready var card2 = $CardsContainer/ArcherCorin2 as CreatureCard
+@onready var card2 = $CardsContainer/ArcherCorin2 as CreatureCard
 #@onready var card2 = $CardsContainer/PuffCute as CreatureCard
-@onready var card2 = $CardsContainer/Dwarf as CreatureCard
+#@onready var card2 = $CardsContainer/Dwarf as CreatureCard
 
 
 func on_basic_atk_btn_pressed() -> void:

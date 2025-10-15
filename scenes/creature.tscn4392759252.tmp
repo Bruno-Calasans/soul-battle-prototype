@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://eqmw8w7x68jv"]
+[gd_scene load_steps=10 format=3 uid="uid://eqmw8w7x68jv"]
 
 [ext_resource type="PackedScene" uid="uid://c8jkchxwm3bjo" path="res://scenes/card.tscn" id="1_rl551"]
 [ext_resource type="Script" uid="uid://c3q2p4f7bc7jr" path="res://scripts/creature/creature.gd" id="2_3ge22"]
@@ -9,10 +9,14 @@
 [ext_resource type="Texture2D" uid="uid://di4fql0tbj2vd" path="res://assets/creature/bottom_icons/physical_armor.png" id="5_jdfpr"]
 [ext_resource type="Texture2D" uid="uid://druuq8oyxx2bq" path="res://assets/creature/bottom_icons/magical_armor.png" id="6_h6uyy"]
 [ext_resource type="Script" uid="uid://dq0pttiewx0ep" path="res://scripts/creature/creature_effects_manager.gd" id="6_k15pb"]
-[ext_resource type="Script" uid="uid://dyp0birstrnay" path="res://scenes/creature_popup.gd" id="10_k15pb"]
 
 [node name="CreatureCard" instance=ExtResource("1_rl551")]
 script = ExtResource("2_3ge22")
+can_attack = true
+can_use_special_atk = true
+can_use_ultimate_atk = true
+can_dodge = true
+can_heal = true
 
 [node name="CardTexture" parent="." index="0"]
 offset_right = 414.0
@@ -149,7 +153,6 @@ vertical = true
 reverse_fill = true
 
 [node name="FloatingPopupPosition" type="Marker2D" parent="." index="1"]
-position = Vector2(205, 17)
-script = ExtResource("10_k15pb")
+position = Vector2(385, 27)
 
 [connection signal="on_creature_is_destroyed" from="." to="." method="_on_creature_is_destroyed"]
