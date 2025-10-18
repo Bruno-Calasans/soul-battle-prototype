@@ -25,6 +25,7 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @onready var type_icon: TextureRect = $CardTexture/CardBasicInfo/CardTypeTexture/CardTypeIcon
 @onready var card_texture: TextureRect = $CardTexture
 @onready var card_manager: CardManager = $CardTexture/CardArea
+@onready var card_collision: CollisionShape2D = $CardTexture/CardArea/Colision
 
 
 func set_card_name(card_name: String):

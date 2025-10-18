@@ -12,9 +12,57 @@
 [ext_resource type="Script" uid="uid://dyp0birstrnay" path="res://scenes/creature_popup.gd" id="10_k15pb"]
 
 [node name="CreatureCard" instance=ExtResource("1_rl551")]
+texture_filter = 2
+position = Vector2(-1, -7.6293945e-06)
 script = ExtResource("2_3ge22")
 
+[node name="CardTexture" parent="." index="0"]
+texture_filter = 2
+
+[node name="CardImgContainer" parent="CardTexture" index="0"]
+texture_filter = 2
+
+[node name="CardImg" parent="CardTexture/CardImgContainer" index="0"]
+texture_filter = 2
+
+[node name="CardExtraInfoContainer" parent="CardTexture" index="1"]
+texture_filter = 2
+offset_left = -39.249985
+offset_top = -22.020004
+offset_right = 180.75003
+offset_bottom = 94.979996
+
+[node name="CardNamePanel" parent="CardTexture/CardExtraInfoContainer" index="0"]
+texture_filter = 2
+
+[node name="CardNameLabel" parent="CardTexture/CardExtraInfoContainer/CardNamePanel" index="0"]
+texture_filter = 2
+
+[node name="CardTagPanel" parent="CardTexture/CardExtraInfoContainer" index="1"]
+texture_filter = 2
+
+[node name="CardTagLabel" parent="CardTexture/CardExtraInfoContainer/CardTagPanel" index="0"]
+texture_filter = 2
+
+[node name="CardBasicInfo" parent="CardTexture" index="2"]
+texture_filter = 2
+offset_bottom = 79.55699
+
+[node name="CardSoulCostTexture" parent="CardTexture/CardBasicInfo" index="0"]
+texture_filter = 2
+stretch_mode = 5
+
+[node name="CardSoulCostLabel" parent="CardTexture/CardBasicInfo/CardSoulCostTexture" index="0"]
+texture_filter = 2
+
+[node name="CardTypeTexture" parent="CardTexture/CardBasicInfo" index="1"]
+texture_filter = 2
+
+[node name="CardTypeIcon" parent="CardTexture/CardBasicInfo/CardTypeTexture" index="0"]
+texture_filter = 2
+
 [node name="CreatureDmgTypeTexture" type="TextureRect" parent="CardTexture/CardBasicInfo" index="2"]
+texture_filter = 2
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 texture = ExtResource("3_jdfpr")
@@ -22,6 +70,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="CreatureDmgTypeIcon" type="TextureRect" parent="CardTexture/CardBasicInfo/CreatureDmgTypeTexture" index="0"]
+texture_filter = 2
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 1
 anchors_preset = 8
@@ -38,105 +87,130 @@ grow_vertical = 2
 texture = ExtResource("4_h6uyy")
 expand_mode = 1
 
+[node name="CardDescContainer" parent="CardTexture" index="3"]
+texture_filter = 2
+
+[node name="CardDescLabel" parent="CardTexture/CardDescContainer" index="0"]
+texture_filter = 2
+theme_override_font_sizes/normal_font_size = 7
+
 [node name="CreatureBottomContainer" type="HSplitContainer" parent="CardTexture" index="4"]
+texture_filter = 2
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.035
 anchor_top = 0.938
 anchor_right = 0.96500003
 anchor_bottom = 0.99200004
-offset_left = -0.08500099
-offset_top = -0.19604492
-offset_right = 0.08496094
-offset_bottom = 0.13598633
+offset_left = -3.6874757
+offset_top = -0.105041504
+offset_right = 235.10202
+offset_bottom = 20.554962
 grow_horizontal = 2
 grow_vertical = 0
+scale = Vector2(0.38, 0.38)
 dragging_enabled = false
 
 [node name="AtkHealthContainer" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer" index="0"]
+texture_filter = 2
 layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="CreatureAtkContainer" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer" index="0"]
+texture_filter = 2
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="CreatureAtkIcon" type="TextureRect" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureAtkContainer" index="0"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("3_k15pb")
 stretch_mode = 5
 
 [node name="CreatureAtkLabel" type="Label" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureAtkContainer" index="1"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 20
 text = "10"
 
 [node name="CreatureHealthContainer" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer" index="1"]
+texture_filter = 2
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="CreatureHealthIcon" type="TextureRect" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureHealthContainer" index="0"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("4_30bw7")
 stretch_mode = 5
 
 [node name="CreatureHealthLabel" type="Label" parent="CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureHealthContainer" index="1"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 20
 text = "10"
 
 [node name="ArmorContainer" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer" index="1"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 
 [node name="PhysicalArmor" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer/ArmorContainer" index="0"]
+texture_filter = 2
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="CreaturePhysicalArmorIcon" type="TextureRect" parent="CardTexture/CreatureBottomContainer/ArmorContainer/PhysicalArmor" index="0"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("5_jdfpr")
 stretch_mode = 5
 
 [node name="CreaturePhysicalArmorLabel" type="Label" parent="CardTexture/CreatureBottomContainer/ArmorContainer/PhysicalArmor" index="1"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 20
 text = "10"
 
 [node name="MagicalArmor" type="HBoxContainer" parent="CardTexture/CreatureBottomContainer/ArmorContainer" index="1"]
+texture_filter = 2
 layout_mode = 2
 theme_override_constants/separation = 4
 alignment = 1
 
 [node name="CreatureMagicalArmorIcon" type="TextureRect" parent="CardTexture/CreatureBottomContainer/ArmorContainer/MagicalArmor" index="0"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("6_h6uyy")
 stretch_mode = 5
 
 [node name="CreatureMagicallArmorLabel" type="Label" parent="CardTexture/CreatureBottomContainer/ArmorContainer/MagicalArmor" index="1"]
+texture_filter = 2
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_font_sizes/font_size = 20
 text = "10"
 
 [node name="CreatureEffectsManager" type="Node2D" parent="CardTexture" index="5"]
+texture_filter = 2
 script = ExtResource("6_k15pb")
 
 [node name="ActiveEffectsContainer" type="FlowContainer" parent="CardTexture/CreatureEffectsManager" index="0"]
-offset_left = 108.0
-offset_top = 31.0
-offset_right = 383.0
-offset_bottom = 227.0
+texture_filter = 2
+offset_left = 35.9375
+offset_top = 3.437519
+offset_right = 145.31253
+offset_bottom = 84.687515
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 50
@@ -144,8 +218,12 @@ theme_override_constants/v_separation = 50
 vertical = true
 reverse_fill = true
 
+[node name="Colision" parent="CardTexture/CardArea" index="0"]
+position = Vector2(74.999985, 105)
+
 [node name="FloatingPopupPosition" type="Marker2D" parent="." index="1"]
-position = Vector2(117.50001, -209.99998)
+texture_filter = 2
+position = Vector2(53.75, -79.999985)
 script = ExtResource("10_k15pb")
 
 [connection signal="on_creature_is_destroyed" from="." to="." method="_on_creature_is_destroyed"]
