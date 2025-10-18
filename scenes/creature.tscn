@@ -14,10 +14,6 @@
 [node name="CreatureCard" instance=ExtResource("1_rl551")]
 script = ExtResource("2_3ge22")
 
-[node name="CardTexture" parent="." index="0"]
-offset_right = 414.0
-offset_bottom = 640.0
-
 [node name="CreatureDmgTypeTexture" type="TextureRect" parent="CardTexture/CardBasicInfo" index="2"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
@@ -149,7 +145,7 @@ vertical = true
 reverse_fill = true
 
 [node name="FloatingPopupPosition" type="Marker2D" parent="." index="1"]
-position = Vector2(205, 17)
+position = Vector2(117.50001, -209.99998)
 script = ExtResource("10_k15pb")
 
 [connection signal="on_creature_is_destroyed" from="." to="." method="_on_creature_is_destroyed"]

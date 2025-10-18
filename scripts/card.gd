@@ -23,6 +23,8 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @onready var soul_cost_label: Label = $CardTexture/CardBasicInfo/CardSoulCostTexture/CardSoulCostLabel
 @onready var img: TextureRect = $CardTexture/CardImgContainer/CardImg
 @onready var type_icon: TextureRect = $CardTexture/CardBasicInfo/CardTypeTexture/CardTypeIcon
+@onready var card_texture: TextureRect = $CardTexture
+@onready var card_manager: CardManager = $CardTexture/CardArea
 
 
 func set_card_name(card_name: String):
