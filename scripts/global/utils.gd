@@ -1,3 +1,4 @@
+extends Node2D
 class_name Utils
 
 static func calc_chance(chance: int) -> bool:
@@ -8,4 +9,7 @@ static func calc_chance(chance: int) -> bool:
 
 static func set_label_font_color(label: Label, color: Color):
 	label.add_theme_color_override('font_color', color)
+	
+
+
 	

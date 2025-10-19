@@ -13,9 +13,8 @@ func insert_card(card: Card):
 		can_put_card_in_slot = false
 		card.position = position
 		card.card_collision.disabled = true
-		print('Inserting card')
+		print(card.position, position)
 		
-	
 	
 func remove_card():
 	if card_in_slot:

@@ -14,6 +14,7 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @export var rarity: CARD_RARITY = CARD_RARITY.COMMON
 @export var desc: String = ''
 @export var img_url: String = ''
+var position_in_hand: Vector2
 
 
 # Visual
@@ -24,8 +25,8 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @onready var img: TextureRect = $CardTexture/CardImgContainer/CardImg
 @onready var type_icon: TextureRect = $CardTexture/CardBasicInfo/CardTypeTexture/CardTypeIcon
 @onready var card_texture: TextureRect = $CardTexture
-@onready var card_manager: CardManager = $CardTexture/CardArea
 @onready var card_collision: CollisionShape2D = $CardTexture/CardArea/Colision
+
 
 
 func set_card_name(card_name: String):
@@ -76,3 +77,11 @@ func set_card_img(url: String):
 func update_type_icon(url: String):
 	if(type_icon and type_icon.ready):
 		type_icon.texture = load(url)
+
+
+func _on_card_area_mouse_entered() -> void:
+	event_bus.card_hovered_on.emit(self)
+
+
+func _on_card_area_mouse_exited() -> void:
+	event_bus.card_hovered_off.emit(self)

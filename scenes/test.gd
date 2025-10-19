@@ -1,4 +1,4 @@
-extends Node2D
+extends VBoxContainer
 class_name Test
 
 # card 1 to card2

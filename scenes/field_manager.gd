@@ -1,5 +1,5 @@
-extends Area2D
-class_name CardManager
+extends Node2D
+class_name FieldManager
 
 var dragged_card: Card = null
 var screen_size: Vector2
@@ -7,27 +7,29 @@ var is_hovering_card: bool = false
 var default_scale: Vector2
 var drag_scale: Vector2
 var highlight_scale: Vector2
+var hand: CardHand
+
+# Hands
+@onready var player_hand: CardHand = $Hands/PlayerHand
+@onready var oponent_hand: CardHand = $Hands/OponentHand
+
+# Slots
 
 
 func _process(delta: float) -> void:
-	if dragged_card:
-		var texture: TextureRect = dragged_card.card_texture
-		var card_size: Vector2 = texture.size
-		var mouse_pos: Vector2 = get_global_mouse_position()
-		
-		# limit card position on the screen, don't go outside the windows
-		var max_x: float = clamp(mouse_pos.x, 0, screen_size.x )
-		var max_y: float = clamp(mouse_pos.y, 0, screen_size.y )
-		
-		dragged_card.position = Vector2(max_x, max_y)
+	update_card_position_with_mouse()
 
 
 func _ready() -> void: 
 	screen_size = get_viewport_rect().size
-	default_scale = (get_parent() as TextureRect).scale
+	default_scale = Vector2(0.8, 0.8)
 	drag_scale = default_scale * 1.25
 	highlight_scale = default_scale * 1.2
-
+	
+	# conect card signals
+	event_bus.card_hovered_on.connect(_on_card_hovered_on)
+	event_bus.card_hovered_off.connect(_on_card_hovered_off)
+	
 
 func _input(event: InputEvent) -> void:
 	
@@ -37,6 +39,7 @@ func _input(event: InputEvent) -> void:
 		# it fixes the bug where you drag the ackground card
 		# is dragged instead the card where you mouse is hovering on
 		var card: Card = get_card_on_top()
+		print('card being dragged = ', card)
 	
 		if  event.is_pressed():
 			if card: start_drag(card)
@@ -44,10 +47,27 @@ func _input(event: InputEvent) -> void:
 			end_drag()
 	
 
+func update_card_position_with_mouse():
+	if dragged_card:
+		var mouse_pos: Vector2 = get_global_mouse_position()
+		
+		# limit card position on the screen, don't go outside the windows
+		var max_x: float = clamp(mouse_pos.x, 0, screen_size.x )
+		var max_y: float = clamp(mouse_pos.y, 0, screen_size.y )
+		
+		dragged_card.position = Vector2(max_x, max_y)
+
+
 func start_drag(card: Card):
 	if !dragged_card:
 		dragged_card = card
 		dragged_card.card_texture.scale = drag_scale
+		
+		# determines hand
+		if player_hand.has_card(dragged_card):
+			hand = player_hand
+		else:
+			hand = oponent_hand
 	
 	
 func end_drag():
@@ -56,8 +76,15 @@ func end_drag():
 		# detect card slots before drop
 		var card_slot = get_first_card_slot()
 		if card_slot:
+			print('card to be inserted in the slot = ', dragged_card)
 			card_slot.insert_card(dragged_card)
-		
+			hand.remove_card(dragged_card)
+			
+		else:
+			# card goes back to hand
+			hand.animate_card_to_position(dragged_card, dragged_card.position_in_hand)
+			
+		# Set default scale for card texture
 		dragged_card.card_texture.scale = default_scale
 		dragged_card = null
 		
@@ -109,6 +136,7 @@ func get_first_card_slot() -> CardSlot:
 
 func get_card_on_top() -> Card:
 	var cards: Array[Card] = detect_cards()
+	print('Cards detected = ', cards)
 	
 	if cards.size() == 0: return null
 	
@@ -129,8 +157,8 @@ func get_first_card() -> Card:
 	return cards[0]
 
 
-func highlight_card(hovered: bool):
-	var card_texture: TextureRect = get_parent()
+func highlight_card(card: Card, hovered: bool):
+	var card_texture: TextureRect = card.card_texture
 	
 	if hovered:
 		card_texture.scale = highlight_scale
@@ -140,22 +168,26 @@ func highlight_card(hovered: bool):
 		card_texture.z_index = 1
 
 
-func _on_mouse_entered() -> void:
+func _on_card_hovered_on(card: Card) -> void:
+	print('Hovering on the card')
 	if !is_hovering_card:
 		is_hovering_card = true
-		highlight_card(true)
+		highlight_card(card, true)
 		
 
-func _on_mouse_exited() -> void:
-	highlight_card(false)
+func _on_card_hovered_off(card: Card) -> void:
+	
+	print('Hovering off the card')
+	highlight_card(card, false)
 	
 	# check if there's any card after hover effect
 	var card_after_hover = get_first_card()
 	
 	# hightlight that card
 	if card_after_hover:
-		card_after_hover.card_manager.highlight_card(true)
+		highlight_card(card, true)
 	else:
 		is_hovering_card = false
+		
 		
 	

@@ -1,0 +1,126 @@
+[gd_scene load_steps=4 format=3 uid="uid://by6mlson3xatu"]
+
+[ext_resource type="Script" uid="uid://b8rwqtsowi0d8" path="res://scenes/test.gd" id="1_bl13t"]
+[ext_resource type="PackedScene" uid="uid://bi4d145blmjmt" path="res://scenes/player_hand.tscn" id="2_iyx0m"]
+[ext_resource type="PackedScene" uid="uid://dajdunb2sry23" path="res://scenes/card_slot.tscn" id="3_iyx0m"]
+
+[node name="TestScene" type="Node2D"]
+script = ExtResource("1_bl13t")
+
+[node name="Arena" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1282.0
+offset_bottom = 720.0
+
+[node name="PlayerHand" parent="Arena" instance=ExtResource("2_iyx0m")]
+layout_mode = 1
+anchor_left = 0.0015600624
+anchor_top = 0.65666664
+anchor_right = 1.0015601
+anchor_bottom = 0.99722224
+offset_left = 0.0
+offset_top = 0.2000122
+offset_right = 0.0
+
+[node name="EnemyHand" parent="Arena" instance=ExtResource("2_iyx0m")]
+layout_mode = 1
+anchor_left = -0.0015600624
+anchor_top = 0.003888872
+anchor_right = 0.9984399
+anchor_bottom = 0.34444445
+offset_left = 0.0
+offset_top = 0.2000122
+offset_right = 0.0
+
+[node name="Buttons" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 8.0
+offset_top = 15.0
+offset_right = 251.0
+offset_bottom = 458.0
+theme_override_constants/separation = 70
+alignment = 1
+
+[node name="Buttons1" type="VBoxContainer" parent="Buttons"]
+layout_mode = 2
+alignment = 1
+
+[node name="Attack" type="Button" parent="Buttons/Buttons1"]
+layout_mode = 2
+text = "Attack -->"
+
+[node name="Special" type="Button" parent="Buttons/Buttons1"]
+layout_mode = 2
+text = "Special Attack -->"
+
+[node name="Ultimate" type="Button" parent="Buttons/Buttons1"]
+layout_mode = 2
+text = "Ultimate Attack -->"
+
+[node name="Heal" type="Button" parent="Buttons/Buttons1"]
+layout_mode = 2
+text = "<--  Heal  card by 10"
+
+[node name="Buttons2" type="VBoxContainer" parent="Buttons"]
+layout_mode = 2
+alignment = 1
+
+[node name="Attack" type="Button" parent="Buttons/Buttons2"]
+layout_mode = 2
+text = "<-- Attack"
+
+[node name="Special" type="Button" parent="Buttons/Buttons2"]
+layout_mode = 2
+text = "<--  Special Attack"
+
+[node name="Ultimate" type="Button" parent="Buttons/Buttons2"]
+layout_mode = 2
+text = "<--  Ultimate Attack"
+
+[node name="Heal" type="Button" parent="Buttons/Buttons2"]
+layout_mode = 2
+text = "<--  Heal  card by 10"
+
+[node name="Next_turn" type="Button" parent="Buttons"]
+layout_mode = 2
+text = "Next turn"
+
+[node name="SlotsArea" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 89.0
+offset_top = 175.0
+offset_right = 1205.0
+offset_bottom = 549.0
+
+[node name="CardSlot" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(455.99997, 104.99999)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot4" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(454.99997, 285)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot5" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(600, 285)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot6" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(740, 283)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot2" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(728, 102.99999)
+scale = Vector2(0.8, 0.8)
+
+[node name="CardSlot3" parent="SlotsArea" instance=ExtResource("3_iyx0m")]
+position = Vector2(595, 104.99999)
+scale = Vector2(0.8, 0.8)
+
+[connection signal="pressed" from="Buttons/Buttons1/Attack" to="." method="on_basic_atk_btn_pressed"]
+[connection signal="pressed" from="Buttons/Buttons1/Special" to="." method="on_special_atk_btn_pressed"]
+[connection signal="pressed" from="Buttons/Buttons1/Heal" to="." method="_on_heal_pressed"]
+[connection signal="pressed" from="Buttons/Buttons2/Attack" to="." method="_on_attack_pressed_2"]
+[connection signal="pressed" from="Buttons/Buttons2/Special" to="." method="_on_special_pressed_2"]
+[connection signal="pressed" from="Buttons/Next_turn" to="." method="on_next_button_btn_pressed"]
