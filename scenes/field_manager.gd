@@ -7,13 +7,9 @@ var is_hovering_card: bool = false
 var default_scale: Vector2
 var drag_scale: Vector2
 var highlight_scale: Vector2
-var hand: CardHand
 
-# Hands
-@onready var player_hand: CardHand = $Hands/PlayerHand
-@onready var oponent_hand: CardHand = $Hands/OponentHand
-
-# Slots
+@onready var hand: CardHand = $Hand
+@onready var deck: Deck = $Deck
 
 
 func _process(delta: float) -> void:
@@ -36,16 +32,20 @@ func _input(event: InputEvent) -> void:
 	# when you click and hold left mouse button
 	if event and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		
-		# it fixes the bug where you drag the ackground card
-		# is dragged instead the card where you mouse is hovering on
-		var card: Card = get_card_on_top()
-		print('card being dragged = ', card)
-	
 		if  event.is_pressed():
-			if card: start_drag(card)
+			var first_node = get_first_node()
+			
+			if first_node is CardArea:
+				# it fixes the bug where you drag the background card
+				# is dragged instead the card where you mouse is hovering on
+				start_drag(get_card_on_top())
+		
+			elif first_node is DeckArea:
+				deck.draw(1)
 		else:
 			end_drag()
 	
+
 
 func update_card_position_with_mouse():
 	if dragged_card:
@@ -63,12 +63,6 @@ func start_drag(card: Card):
 		dragged_card = card
 		dragged_card.card_texture.scale = drag_scale
 		
-		# determines hand
-		if player_hand.has_card(dragged_card):
-			hand = player_hand
-		else:
-			hand = oponent_hand
-	
 	
 func end_drag():
 	if dragged_card:
@@ -128,6 +122,12 @@ func detect_card_slots() -> Array[CardSlot]:
 	return slots
 
 
+func get_first_node() -> Node:
+	var nodes = detect_nodes_with_mouse()
+	if nodes.size() == 0: return null
+	return nodes[0]
+
+
 func get_first_card_slot() -> CardSlot:
 	var card_slots: Array[CardSlot] = detect_card_slots()
 	if card_slots.size() == 0: return null
@@ -136,7 +136,6 @@ func get_first_card_slot() -> CardSlot:
 
 func get_card_on_top() -> Card:
 	var cards: Array[Card] = detect_cards()
-	print('Cards detected = ', cards)
 	
 	if cards.size() == 0: return null
 	
@@ -189,5 +188,3 @@ func _on_card_hovered_off(card: Card) -> void:
 	else:
 		is_hovering_card = false
 		
-		
-	

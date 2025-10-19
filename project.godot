@@ -31,6 +31,12 @@ window/canvas_textures/default_texture_filter=1
 CardArea=""
 Field=""
 
+[layer_names]
+
+2d_physics/layer_1="Card"
+2d_physics/layer_2="Card Slot"
+2d_physics/layer_3="Deck"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"

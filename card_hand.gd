@@ -4,28 +4,31 @@ class_name CardHand
 const CARD_AMOUNT = 3
 const CARD_WIDTH = 130
 const HAND_Y_POSITION = 620
-const ANIMATION_SPEED = 0.2
+const ANIMATION_SPEED = 0.4
 const FROM_POSITION  = Vector2(1200, 500)
+const START_DRAW_CARDS = 2
 
 var hand: Array[Card] = []
 var center_screen_x: float
 var card_width: float
 
+@onready var deck: Deck = $"../Deck"
+
 
 func _ready() -> void:
 	center_screen_x = get_viewport_rect().size.x / 2
+	if deck.ready:
+		deck.draw(START_DRAW_CARDS)
 	
-	for i in range(CARD_AMOUNT):
-		var card_scene: PackedScene = preload("res://cards/creature/archer_corin/archer_corin.tscn")
-		var card: Card = card_scene.instantiate()
-		add_child(card)
-		add_card(card)
-		
 
 func add_card(card: Card):
+	# new card to hand
 	if card not in hand:
 		hand.insert(0, card)
 		update_hand_position()
+		add_child(card)
+		
+	# returning card to hand
 	else:
 		animate_card_to_position(card, card.position_in_hand)
 	
@@ -34,7 +37,7 @@ func remove_card(card: Card):
 	if card in hand:
 		hand.erase(card)
 		update_hand_position()
-	
+		
 
 func update_hand_position():
 	for index in range(hand.size()):

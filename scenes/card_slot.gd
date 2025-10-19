@@ -7,13 +7,13 @@ var can_put_card_in_slot: bool = true
 
 
 func insert_card(card: Card):
-	print('card_in_slot = ', card_in_slot)
+	print('card_in_slot = ', card)
 	if can_put_card_in_slot and not card_in_slot:
 		card_in_slot = card
 		can_put_card_in_slot = false
-		card.position = position
+		# it dependes on the card type (control, node2d)
+		card.position = global_position
 		card.card_collision.disabled = true
-		print(card.position, position)
 		
 	
 func remove_card():

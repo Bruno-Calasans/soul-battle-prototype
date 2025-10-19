@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8jkchxwm3bjo"]
+[gd_scene load_steps=11 format=3 uid="uid://c8jkchxwm3bjo"]
 
 [ext_resource type="Script" uid="uid://d15isrbd7bj30" path="res://scripts/card.gd" id="1_d81rb"]
 [ext_resource type="Texture2D" uid="uid://loejcsv6msvb" path="res://assets/card/general/card_circle.svg" id="2_6u4wf"]
 [ext_resource type="Texture2D" uid="uid://bnvv0kdb5eeim" path="res://assets/creature/rarity_base_card/common_creature.png" id="2_sy11y"]
 [ext_resource type="Texture2D" uid="uid://xuqq05k7xq4r" path="res://assets/creature/img/baiacu_fofinho.jpg" id="3_6ligt"]
 [ext_resource type="Texture2D" uid="uid://obaiyn37bxgq" path="res://assets/creature/type_icon/skill.svg" id="5_sy11y"]
+[ext_resource type="Script" uid="uid://cubs7nhasfkbx" path="res://scenes/card_area.gd" id="6_6ligt"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvopj"]
 corner_radius_top_left = 8
@@ -243,6 +244,7 @@ ataque duas vezes com 10 de ataque físico ."
 [node name="CardArea" type="Area2D" parent="CardTexture"]
 scale = Vector2(1.0000001, 1.0000001)
 collision_mask = 3
+script = ExtResource("6_6ligt")
 
 [node name="Colision" type="CollisionShape2D" parent="CardTexture/CardArea"]
 position = Vector2(74.99997, 103.437485)
