@@ -1,25 +1,23 @@
 extends Node2D
-class_name CardHand
+class_name PlayerHand
 
 const CARD_AMOUNT = 3
-const CARD_WIDTH = 130
-const HAND_Y_POSITION = 620
+const CARD_WIDTH = 100
+const HAND_Y_POSITION = 650
 const ANIMATION_SPEED = 0.4
 const FROM_POSITION  = Vector2(1200, 500)
-const START_DRAW_CARDS = 2
+
 
 var hand: Array[Card] = []
 var center_screen_x: float
 var card_width: float
 
-@onready var deck: Deck = $"../Deck"
+@onready var deck: PlayerDeck = $"../PlayerDeck"
 
 
 func _ready() -> void:
 	center_screen_x = get_viewport_rect().size.x / 2
-	if deck.ready:
-		deck.draw(START_DRAW_CARDS)
-	
+
 
 func add_card(card: Card):
 	# new card to hand

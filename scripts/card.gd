@@ -26,6 +26,7 @@ var position_in_hand: Vector2
 @onready var type_icon: TextureRect = $CardTexture/CardBasicInfo/CardTypeTexture/CardTypeIcon
 @onready var card_texture: TextureRect = $CardTexture
 @onready var card_collision: CollisionShape2D = $CardTexture/CardArea/Colision
+@onready var card_animation: AnimationPlayer = $CardAnimation
 
 
 

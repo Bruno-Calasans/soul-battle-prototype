@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://c8jkchxwm3bjo"]
+[gd_scene load_steps=15 format=3 uid="uid://c8jkchxwm3bjo"]
 
 [ext_resource type="Script" uid="uid://d15isrbd7bj30" path="res://scripts/card.gd" id="1_d81rb"]
 [ext_resource type="Texture2D" uid="uid://loejcsv6msvb" path="res://assets/card/general/card_circle.svg" id="2_6u4wf"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://xuqq05k7xq4r" path="res://assets/creature/img/baiacu_fofinho.jpg" id="3_6ligt"]
 [ext_resource type="Texture2D" uid="uid://obaiyn37bxgq" path="res://assets/creature/type_icon/skill.svg" id="5_sy11y"]
 [ext_resource type="Script" uid="uid://cubs7nhasfkbx" path="res://scenes/card_area.gd" id="6_6ligt"]
+[ext_resource type="Texture2D" uid="uid://ck1g1m2ju2bih" path="res://assets/deck/deck.png" id="7_8w5pg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvopj"]
 corner_radius_top_left = 8
@@ -36,12 +37,171 @@ shadow_size = 12
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sy11y"]
 size = Vector2(191.40622, 265.62497)
 
+[sub_resource type="Animation" id="Animation_8w5pg"]
+resource_name = "flip"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBackTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(0.2, 0.8), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardTexture:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardTexture:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.2, 0.8), Vector2(0.8, 0.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardTexture:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CardTexture/CardArea/Colision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CardBackTexture:z_index")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, -1]
+}
+
+[sub_resource type="Animation" id="Animation_nvopj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBackTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardTexture:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardTexture:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardTexture:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CardTexture/CardArea/Colision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CardBackTexture:z_index")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nvopj"]
+_data = {
+&"RESET": SubResource("Animation_nvopj"),
+&"flip": SubResource("Animation_8w5pg")
+}
+
 [node name="Card" type="Node2D"]
 position = Vector2(1.9073486e-06, 0)
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.6, 0.6)
 script = ExtResource("1_d81rb")
 
 [node name="CardTexture" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
 clip_contents = true
 anchors_preset = 8
 anchor_left = 0.5
@@ -250,6 +410,27 @@ script = ExtResource("6_6ligt")
 position = Vector2(74.99997, 103.437485)
 scale = Vector2(0.8, 0.8)
 shape = SubResource("RectangleShape2D_sy11y")
+
+[node name="CardBackTexture" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -75.00001
+offset_top = -105.00001
+offset_right = 74.99999
+offset_bottom = 104.99999
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(75, 105)
+texture = ExtResource("7_8w5pg")
+expand_mode = 1
+
+[node name="CardAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_nvopj")
+}
 
 [connection signal="mouse_entered" from="CardTexture/CardArea" to="." method="_on_card_area_mouse_entered"]
 [connection signal="mouse_exited" from="CardTexture/CardArea" to="." method="_on_card_area_mouse_exited"]

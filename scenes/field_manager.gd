@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name FieldManager
 
 var dragged_card: Card = null
@@ -8,8 +8,9 @@ var default_scale: Vector2
 var drag_scale: Vector2
 var highlight_scale: Vector2
 
-@onready var hand: CardHand = $Hand
-@onready var deck: Deck = $Deck
+@onready var player: Player = $Player
+@onready var hand: PlayerHand = $PlayerHand
+@onready var deck: PlayerDeck = $PlayerDeck
 
 
 func _process(delta: float) -> void:
@@ -40,47 +41,50 @@ func _input(event: InputEvent) -> void:
 				# is dragged instead the card where you mouse is hovering on
 				start_drag(get_card_on_top())
 		
-			elif first_node is DeckArea:
+			if first_node is DeckArea:
 				deck.draw(1)
 		else:
 			end_drag()
 	
 
-
 func update_card_position_with_mouse():
-	if dragged_card:
-		var mouse_pos: Vector2 = get_global_mouse_position()
-		
-		# limit card position on the screen, don't go outside the windows
-		var max_x: float = clamp(mouse_pos.x, 0, screen_size.x )
-		var max_y: float = clamp(mouse_pos.y, 0, screen_size.y )
-		
-		dragged_card.position = Vector2(max_x, max_y)
+	if !dragged_card: return
+
+	var mouse_pos: Vector2 = get_global_mouse_position()
+	
+	# limit card position on the screen, don't go outside the windows
+	var max_x: float = clamp(mouse_pos.x, 0, screen_size.x )
+	var max_y: float = clamp(mouse_pos.y, 0, screen_size.y )
+	
+	dragged_card.position = Vector2(max_x, max_y)
 
 
 func start_drag(card: Card):
-	if !dragged_card:
-		dragged_card = card
-		dragged_card.card_texture.scale = drag_scale
-		
+	if dragged_card: return
+	dragged_card = card
+	dragged_card.card_texture.scale = drag_scale
+	
 	
 func end_drag():
-	if dragged_card:
+	if !dragged_card: return
 		
-		# detect card slots before drop
-		var card_slot = get_first_card_slot()
-		if card_slot:
-			print('card to be inserted in the slot = ', dragged_card)
-			card_slot.insert_card(dragged_card)
-			hand.remove_card(dragged_card)
-			
-		else:
-			# card goes back to hand
-			hand.animate_card_to_position(dragged_card, dragged_card.position_in_hand)
-			
-		# Set default scale for card texture
-		dragged_card.card_texture.scale = default_scale
-		dragged_card = null
+	# detect card slots before drop and if the player can summon
+	var card_slot = get_first_card_slot()
+	
+	# summon card
+	if card_slot and card_slot.can_put_this_card(dragged_card, Enum.PLAYER_TYPE.PLAYER) and player.can_summon_this_card(dragged_card):
+		card_slot.insert_card(dragged_card, Enum.PLAYER_TYPE.PLAYER)
+		hand.remove_card(dragged_card)
+		player.modify_soul_by(dragged_card.soul_cost)
+		
+	# card goes back to hand
+	else:
+		hand.animate_card_to_position(dragged_card, dragged_card.position_in_hand)
+		
+	# Set default scale for card texture
+	dragged_card.card_texture.scale = default_scale
+	dragged_card = null
+		
 		
 	
 func detect_nodes_with_mouse() -> Array:
@@ -168,22 +172,19 @@ func highlight_card(card: Card, hovered: bool):
 
 
 func _on_card_hovered_on(card: Card) -> void:
-	print('Hovering on the card')
-	if !is_hovering_card:
-		is_hovering_card = true
-		highlight_card(card, true)
+	if is_hovering_card: return
+	is_hovering_card = true
+	highlight_card(card, true)
 		
 
 func _on_card_hovered_off(card: Card) -> void:
-	
-	print('Hovering off the card')
 	highlight_card(card, false)
 	
 	# check if there's any card after hover effect
 	var card_after_hover = get_first_card()
 	
-	# hightlight that card
-	if card_after_hover:
+	# hightlight that card (test)
+	if card_after_hover and card != card_after_hover:
 		highlight_card(card, true)
 	else:
 		is_hovering_card = false
