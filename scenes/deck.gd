@@ -1,23 +1,22 @@
-extends Control
-class_name PlayerDeck
+extends Node2D
+class_name Deck
 
-const START_DRAW_CARDS = 4
+var START_DRAW_CARDS = 4
 
-
-var deck_data: Array[Dictionary]
 var cards: Array[Card] = []
 var can_draw: bool = true
 var draw_this_turn: bool = false
 
+@onready var duelist: Duelist = $".."
+@onready var hand: CardHand = $"../Hand"
+@onready var card_counter_label: Label = $DeckTexture/CardCounter
+@onready var deck_collision: CollisionShape2D = $DeckArea/DeckCollision
 
-@onready var hand: PlayerHand = $"../PlayerHand"
-@onready var card_counter_label: Label = $DeckTexture/CardCount
-@onready var deck_collision: CollisionShape2D = $DeckArea2d/DeckCollision
-@onready var player: Player = $"../Player"
+#func _ready() -> void:
+#	config()
+	
 
-
-func _ready() -> void:
-	deck_data = player.deck1
+func config():
 	add_cards()
 	shuffle()
 	start_draw()
@@ -32,18 +31,20 @@ func start_draw():
 	draw_this_turn = false
 	
 
-
 func add_cards():
-	for i in range(deck_data.size()):
-		var card_data: Dictionary = deck_data[i]
+	for i in range(duelist.deck_data.size()):
+		var card_data: Dictionary = duelist.deck_data[i]
 		var card_scene: PackedScene = load(card_data['path'])
 		
 		for index in range(card_data.amount):
 			var card: Card = card_scene.instantiate()
 			card.position = position
+			if card and card.card_collision:
+				card.card_collision.disabled = true
+				
 			cards.append(card)
 			modify_card_counter(1)
-
+		
 
 func shuffle():
 	if cards.size() > 1:
@@ -61,7 +62,7 @@ func modify_card_counter(value: int):
 
 
 func draw(amount: int = 1) -> bool:
-	if not can_draw or draw_this_turn: return false
+	if not can_draw or draw_this_turn or cards.size() == 0: return false
 	
 	# it limites the amount you can draw
 	var amount_to_draw = clamp(amount, 1, cards.size())
@@ -70,7 +71,10 @@ func draw(amount: int = 1) -> bool:
 	for i in range(amount_to_draw):
 		var drawn_card: Card = cards[i]
 		hand.add_card(drawn_card)
-		drawn_card.card_animation.play('flip')
+		if duelist.type == Enum.DUELIST_TYPE.ENEMY:
+			drawn_card.card_collision.disabled = true
+		else:
+			drawn_card.card_animation.play('flip')
 		modify_card_counter(-1)
 		
 	# remove from deck
@@ -88,3 +92,8 @@ func draw(amount: int = 1) -> bool:
 	draw_this_turn = true
 	
 	return true
+
+
+func reset_draw():
+	can_draw = true
+	draw_this_turn = false

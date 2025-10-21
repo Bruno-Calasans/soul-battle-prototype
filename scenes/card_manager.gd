@@ -1,5 +1,5 @@
-extends Control
-class_name FieldManager
+extends Node2D
+class_name CardManager
 
 var dragged_card: Card = null
 var screen_size: Vector2
@@ -7,10 +7,7 @@ var is_hovering_card: bool = false
 var default_scale: Vector2
 var drag_scale: Vector2
 var highlight_scale: Vector2
-
-@onready var player: Player = $Player
-@onready var hand: PlayerHand = $PlayerHand
-@onready var deck: PlayerDeck = $PlayerDeck
+var duelist: Duelist
 
 
 func _process(delta: float) -> void:
@@ -26,23 +23,36 @@ func _ready() -> void:
 	# conect card signals
 	event_bus.card_hovered_on.connect(_on_card_hovered_on)
 	event_bus.card_hovered_off.connect(_on_card_hovered_off)
+	print(duelist)
 	
 
-func _input(event: InputEvent) -> void:
+func determines_duelist(from_node: Node):
+	if !from_node: return
 	
+	var is_player: bool = from_node.get_tree().has_group('Player')
+	
+	if  is_player:
+		duelist = $"../Player"
+	else:
+		duelist = $"../Opponent"
+		
+
+func _input(event: InputEvent) -> void:
 	# when you click and hold left mouse button
 	if event and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		
 		if  event.is_pressed():
 			var first_node = get_first_node()
+	
+			determines_duelist(first_node)
 			
+			# it fixes the bug where you drag the background card
+			# is dragged instead the card where you mouse is hovering on
 			if first_node is CardArea:
-				# it fixes the bug where you drag the background card
-				# is dragged instead the card where you mouse is hovering on
 				start_drag(get_card_on_top())
 		
 			if first_node is DeckArea:
-				deck.draw(1)
+				duelist.deck.draw(1)
 		else:
 			end_drag()
 	
@@ -72,19 +82,18 @@ func end_drag():
 	var card_slot = get_first_card_slot()
 	
 	# summon card
-	if card_slot and card_slot.can_put_this_card(dragged_card, Enum.PLAYER_TYPE.PLAYER) and player.can_summon_this_card(dragged_card):
-		card_slot.insert_card(dragged_card, Enum.PLAYER_TYPE.PLAYER)
-		hand.remove_card(dragged_card)
-		player.modify_soul_by(dragged_card.soul_cost)
+	if card_slot and card_slot.can_put_this_card(dragged_card, duelist.type) and duelist.can_summon_this_card(dragged_card):
+		card_slot.insert_card(dragged_card, duelist.type)
+		duelist.hand.remove_card(dragged_card)
+		duelist.modify_soul_by(dragged_card.soul_cost)
 		
 	# card goes back to hand
 	else:
-		hand.animate_card_to_position(dragged_card, dragged_card.position_in_hand)
+		duelist.hand.animate_card_to_position(dragged_card, dragged_card.position_in_hand)
 		
 	# Set default scale for card texture
 	dragged_card.card_texture.scale = default_scale
 	dragged_card = null
-		
 		
 	
 func detect_nodes_with_mouse() -> Array:

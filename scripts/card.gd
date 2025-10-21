@@ -16,7 +16,6 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @export var img_url: String = ''
 var position_in_hand: Vector2
 
-
 # Visual
 @onready var name_label: Label = $CardTexture/CardExtraInfoContainer/CardNamePanel/CardNameLabel
 @onready var tag_label: Label= $CardTexture/CardExtraInfoContainer/CardTagPanel/CardTagLabel	
@@ -27,7 +26,6 @@ var position_in_hand: Vector2
 @onready var card_texture: TextureRect = $CardTexture
 @onready var card_collision: CollisionShape2D = $CardTexture/CardArea/Colision
 @onready var card_animation: AnimationPlayer = $CardAnimation
-
 
 
 func set_card_name(card_name: String):

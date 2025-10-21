@@ -117,7 +117,7 @@ const POPUP_COLORS = {
 }
 
 # slot
-enum PLAYER_TYPE {
+enum DUELIST_TYPE {
 	PLAYER,
 	ENEMY
 }
