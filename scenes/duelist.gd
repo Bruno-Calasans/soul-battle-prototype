@@ -42,7 +42,18 @@ func _input(event: InputEvent) -> void:
 func can_summon_this_card(card: Card):
 	return card.soul_cost <= souls
 	
+
+func summon_card(card: Card, slot: CardSlot):
+	if not can_summon_this_card(card): return
 	
+	souls -= card.soul_cost
+	hand.remove_card(card)
+	slot.insert_card(card, type)
+
+	if type == Enum.DUELIST_TYPE.ENEMY:
+		card.card_animation.play('flip_enemy')
+	
+
 func modify_soul_by(value: int):
 	var new_soul_value = max(0, souls + value) 
 	souls = new_soul_value

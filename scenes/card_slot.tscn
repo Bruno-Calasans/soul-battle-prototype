@@ -8,9 +8,9 @@ size = Vector2(108.57144, 155.23811)
 
 [node name="CardSlot" type="Panel"]
 z_index = -1
+z_as_relative = false
 scale = Vector2(0.6, 0.6)
 script = ExtResource("1_cypty")
-slot_player_type = 1
 
 [node name="Texture" type="TextureRect" parent="."]
 layout_mode = 1

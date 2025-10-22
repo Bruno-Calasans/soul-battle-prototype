@@ -26,6 +26,7 @@ size_flags_vertical = 4
 mouse_filter = 2
 
 [node name="Slots" type="VBoxContainer" parent="."]
+z_index = -1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -60,24 +61,28 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
+slot_duelist_type = 1
 
 [node name="CardSlot2" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
+slot_duelist_type = 1
 
 [node name="CardSlot3" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
+slot_duelist_type = 1
 
 [node name="CardSlot4" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
+slot_duelist_type = 1
 
 [node name="FrontSlots" type="HBoxContainer" parent="Slots/OpponentSlots"]
 layout_mode = 2
@@ -88,26 +93,41 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+slot_duelist_type = 1
 
 [node name="CardSlot2" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+slot_duelist_type = 1
 
 [node name="CardSlot3" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+slot_duelist_type = 1
 
 [node name="CardSlot4" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
+slot_duelist_type = 1
 
 [node name="Buttons" type="HBoxContainer" parent="Slots"]
 layout_mode = 2
 theme_override_constants/separation = 30
 alignment = 1
+
+[node name="TurnContainer" type="HBoxContainer" parent="Slots/Buttons"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Slots/Buttons/TurnContainer"]
+layout_mode = 2
+text = "Turno:"
+
+[node name="Value" type="Label" parent="Slots/Buttons/TurnContainer"]
+layout_mode = 2
+text = "1"
 
 [node name="BattlePhaseButton" type="Button" parent="Slots/Buttons"]
 custom_minimum_size = Vector2(50, 50)
@@ -133,25 +153,21 @@ alignment = 2
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-slot_player_type = 0
 
 [node name="CardSlot2" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-slot_player_type = 0
 
 [node name="CardSlot3" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-slot_player_type = 0
 
 [node name="CardSlot4" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
-slot_player_type = 0
 
 [node name="BackSlots" type="HBoxContainer" parent="Slots/PlayerSlots"]
 layout_mode = 2
@@ -163,28 +179,24 @@ layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
-slot_player_type = 0
 
 [node name="CardSlot2" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
-slot_player_type = 0
 
 [node name="CardSlot3" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
-slot_player_type = 0
 
 [node name="CardSlot4" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("7_35llp")]
 layout_mode = 2
 size_flags_horizontal = 6
 size_flags_vertical = 4
 slot_variation = 1
-slot_player_type = 0
 
 [node name="Player" parent="." groups=["Player"] instance=ExtResource("2_aaam2")]
 script = ExtResource("3_wnvii")

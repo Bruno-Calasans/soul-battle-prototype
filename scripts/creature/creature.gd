@@ -45,7 +45,6 @@ func _ready() -> void:
 	})
 	
 
-
 func config(config: Dictionary[String, Variant]):
 	
 	# create basic instances
@@ -150,7 +149,6 @@ func update_physical_armor_label():
 			Utils.set_label_font_color(physical_armor_label, Color.GREEN)
 		
 		
-
 func update_magical_armor_label():
 	var current_magical_armor = status.current_magical_armor
 	var base_magical_armor = status.base_magical_armor
@@ -307,3 +305,5 @@ func _on_creature_is_destroyed(attacker: CreatureCard, target: CreatureCard) -> 
 		target.passive_skills.destruction_effect.execute(attacker)
 		
 	target.queue_free()
+	
+	

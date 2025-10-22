@@ -27,7 +27,6 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @export var can_dodge: bool = true
 @export var can_heal: bool = true
 
-
 @export var dmg_resistence: DmgResistence = null
 @export var debuff_immunity: DebuffImmunity = null
 @export var regeneration: RegenerationStatus = null
@@ -110,4 +109,3 @@ func set_magical_armor_after_dmg(dmg_value: int):
 	
 	set_current_physical_armor(new_magical_armor)
 	modify_health_by(direct_dmg)	
-	
