@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_erb5t")
 dmg_value = 2
-name = "Posion I"
+name = "Poison I"
 desc = "Causa 2 de dano direto e reduz regeneração em 40%."
 level = 1
 metadata/_custom_type_script = "uid://b3fgjv8ylmxdw"

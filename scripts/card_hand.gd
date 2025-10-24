@@ -2,7 +2,7 @@ extends Node2D
 class_name CardHand
 
 var CARD_AMOUNT = 3
-var CARD_WIDTH = 100
+var CARD_WIDTH = 120
 var HAND_Y_POSITION = 650
 var ANIMATION_SPEED = 0.4
 

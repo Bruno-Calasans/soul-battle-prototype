@@ -1,8 +1,8 @@
-extends CreatureCard
+extends Node2D
 class_name CreatureEffectsManager
 
-@onready var creature: CreatureCard = $"../.."
-@onready var active_effects_container: FlowContainer = $ActiveEffectsContainer
+@onready var creature: CreatureCard = $".."
+@onready var active_effects_container: FlowContainer = $"../CardTexture/ActiveEffectsContainer"
 
 var effects: Array[Effect] = []
 
@@ -10,7 +10,6 @@ var effects: Array[Effect] = []
 func show_effect_on_scene(effect: Effect):
 	if active_effects_container and active_effects_container.ready:
 		active_effects_container.add_child(effect)
-		print('Showing effect on scene = ', effect.base_name)
 
 
 func remove_effect_from_scene(effect: Effect):
@@ -37,7 +36,7 @@ func add_effect(effect: Effect):
 
 func remove_effect(effect_name: String):
 	effects = effects.filter(func(effect: Effect): 
-		effect.remove(self)
+		effect.remove(creature)
 		return effect.base_name != effect_name
 	)
 	

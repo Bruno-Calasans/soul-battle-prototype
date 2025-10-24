@@ -9,6 +9,7 @@ class_name Tooltip
 var OFFSET: Vector2 = Vector2.ONE * 12.0
 var opacity_tween: Tween = null
 
+
 func config(title: String, icon_url: String, content: String, left_turns: int):
 	if ready:
 		set_title_text(title)
@@ -38,7 +39,6 @@ func set_content(text: String):
 		content_text.text = text
 		
 	
-	
 func set_left_turns_label(value: int):
 	if left_turns_label and left_turns_label.ready:
 		left_turns_label.text = '%d turno(s)' % [value]
@@ -60,7 +60,4 @@ func tween_opacity(to_value: float):
 	opacity_tween = create_tween()
 	opacity_tween.tween_property(self, 'modulate:a', to_value, 0.3)
 	return opacity_tween
-	
-	
-	
 	

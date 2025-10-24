@@ -14,18 +14,18 @@ const EFFECT_TYPE = Enum.EFFECT_TYPE
 
 
 # Instances
-@onready var effect_level_panel: Panel = $EffectTexture/EffectIcon/EffectLevel
-@onready var effect_level_label: Label = $EffectTexture/EffectIcon/EffectLevel/EffectLevelLabel
-@onready var effect_level_icon: TextureRect = $EffectTexture/EffectIcon
+@onready var effect_level_panel: Panel = $Icon/LevelContainer
+@onready var effect_level_label: Label = $Icon/LevelContainer/LevelLabel
+@onready var effect_level_icon: TextureRect = $Icon
 @onready var effect_tooltip: Tooltip = $Tooltip
 
 
-	
 func config_tooltip(title: String, icon_url: String, content: String, left_turns: int):
 	if effect_level_icon and effect_level_icon.ready:
 		effect_level_icon.mouse_entered.connect(show_tooltip)
 		effect_level_icon.mouse_exited.connect(hide_tooltip)
 		effect_tooltip.config(title, icon_url, content, left_turns)
+	
 	
 		
 func show_tooltip():
@@ -60,6 +60,7 @@ func set_total_turns(turns: int):
 
 
 func set_effect_icon(url: String):
+	icon_url = url
 	if effect_level_icon and effect_level_icon.ready:
 		effect_level_icon.texture = load(url)
 
@@ -84,3 +85,11 @@ func apply(target: CreatureCard, origin: CreatureCard = null):
 
 func remove(target: CreatureCard):
 	print('Remove effect modifications from target')
+
+
+func _on_mouse_entered() -> void:
+	show_tooltip()
+
+
+func _on_mouse_exited() -> void:
+	hide_tooltip()

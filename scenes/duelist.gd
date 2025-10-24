@@ -75,3 +75,11 @@ func modify_health_by(value: int):
 	health = new_health_value
 	set_health_label(new_health_value)
 	
+
+func direct_damage(dmg_value: int):
+	modify_health_by(-dmg_value)
+
+
+func get_summonable_cards() -> Array[Card]:
+	return hand.cards.filter(can_summon_this_card)
+	

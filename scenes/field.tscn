@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://4b4mmwa32sie"]
+[gd_scene load_steps=9 format=3 uid="uid://4b4mmwa32sie"]
 
 [ext_resource type="Script" uid="uid://oxllmmg40a2h" path="res://scenes/opponent_slots.gd" id="1_tcubs"]
 [ext_resource type="PackedScene" uid="uid://uxbhskl7tbo4" path="res://scenes/duelist.tscn" id="2_aaam2"]
 [ext_resource type="Script" uid="uid://x7cftfrrj0ko" path="res://scenes/opponent.gd" id="3_mwwu5"]
+[ext_resource type="Script" uid="uid://2m8kla1bf3gm" path="res://scenes/player_slots.gd" id="3_vjqoj"]
 [ext_resource type="Script" uid="uid://d287umwnduivn" path="res://scenes/player.gd" id="3_wnvii"]
 [ext_resource type="Script" uid="uid://cng38meiadx7g" path="res://scenes/card_manager.gd" id="5_pn4dk"]
 [ext_resource type="PackedScene" uid="uid://dajdunb2sry23" path="res://scenes/card_slot.tscn" id="7_35llp"]
@@ -143,6 +144,7 @@ custom_minimum_size = Vector2(550, 350)
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 2
+script = ExtResource("3_vjqoj")
 
 [node name="FrontSlots" type="HBoxContainer" parent="Slots/PlayerSlots"]
 layout_mode = 2

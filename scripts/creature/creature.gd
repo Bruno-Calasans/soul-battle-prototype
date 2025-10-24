@@ -1,8 +1,6 @@
 extends Card
 class_name CreatureCard
 
-signal on_creature_is_destroyed(attacker: CreatureCard, target: CreatureCard)
-
 # Enums
 const DMG_TYPE = Enum.DMG_TYPE
 const CREATURE_RACE = Enum.CREATURE_RACE
@@ -25,7 +23,7 @@ const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 @onready var health_label: Label = $CardTexture/CreatureBottomContainer/AtkHealthContainer/CreatureHealthContainer/CreatureHealthLabel
 @onready var physical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/PhysicalArmor/CreaturePhysicalArmorLabel
 @onready var magical_armor_label: Label = $CardTexture/CreatureBottomContainer/ArmorContainer/MagicalArmor/CreatureMagicallArmorLabel
-@onready var effects_manager: CreatureEffectsManager = $CardTexture/CreatureEffectsManager
+@onready var effects_manager: CreatureEffectsManager = $EffectsManager
 @onready var popup: CreaturePopupNumber = $FloatingPopupPosition
 
 
@@ -44,6 +42,11 @@ func _ready() -> void:
 		'dmg_type': DMG_TYPE.FIRE
 	})
 	
+	if effects_manager:
+		var effect = PoisonEffect.create(2, 3)
+		effects_manager.add_effect(effect)
+		$CardAnimation.play('flip')
+		
 
 func config(config: Dictionary[String, Variant]):
 	
@@ -173,10 +176,7 @@ func do_direct_damage(dmg_value: int):
 	
 
 func do_physical_damage(dmg_value: int, attacker: CreatureCard):
-	#print('Doing physical damage  = ' + str(dmg_value))
-	
-	var ignores_atk = attacker.passive_skills and attacker.passive_skills.basic_atk_ignores
-	var ignores_physical_armor = ignores_atk and ignores_atk.physical_armor 
+	var ignores_physical_armor = attacker.can_ignore_physical_armor()
 	var no_physical_armor = status.current_physical_armor == 0
 	
 	if ignores_physical_armor or no_physical_armor:
@@ -186,11 +186,23 @@ func do_physical_damage(dmg_value: int, attacker: CreatureCard):
 		status.set_physical_armor_after_dmg(dmg_value)
 		popup.popup_physical_armor_damage(dmg_value)
 	
+
+func can_ignore_magical_armor() -> bool:
+	if not passive_skills: return false
+	if not passive_skills.basic_atk_ignores: return false	
+	if not passive_skills.basic_atk_ignores.magical_armor: return false
+	return true
+	
+	
+func can_ignore_physical_armor() -> bool:
+	if not passive_skills: return false
+	if not passive_skills.basic_atk_ignores: return false	
+	if not passive_skills.basic_atk_ignores.physical_amor: return false
+	return true
+	
 	
 func do_magical_damage(dmg_value: int, attacker: CreatureCard):
-	#print('Doing magical damage  = ' + str(dmg_value))
-	
-	var ignores_magical_armor = attacker.passive_skills and attacker.passive_skills.basic_atk_ignores.magical_amor
+	var ignores_magical_armor = attacker.can_ignore_magical_armor()
 	var no_magical_armor = status.current_magical_armor == 0
 	
 	if ignores_magical_armor or no_magical_armor:
@@ -225,7 +237,7 @@ func damage(dmg: Damage):
 		
 		
 	if status.current_health == 0:
-		on_creature_is_destroyed.emit(dmg.origin, self)
+		on_card_destroyed.emit(dmg.origin, self)
 	
 	# after dmgs
 	update_labels()
@@ -272,16 +284,16 @@ func do_ultimate_atk(target: CreatureCard):
 	
 	
 # This creature attacks others cards 
-func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
+func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE = Enum.CREATURE_ATK_TYPE.BASIC):
 	
 	if !status.can_attack: 
 		print(card_name, " can't attack")
-		return false
+		return 
 	
 	# check target dodge skill
 	if target.passive_skills and target.passive_skills.dodge:
 		target.passive_skills.dodge.execute(self, target, atk_type)
-		return false
+		return
 	
 	# basic atk
 	if atk_type == Enum.CREATURE_ATK_TYPE.BASIC:
@@ -295,15 +307,12 @@ func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
 	if atk_type == Enum.CREATURE_ATK_TYPE.ULTIMATE:
 		do_ultimate_atk(target)
 		
-	return true
 
-
-func _on_creature_is_destroyed(attacker: CreatureCard, target: CreatureCard) -> void:
-	print(target.card_name + ' is destroyed')
+func _on_creature_destroyed(attacker: CreatureCard, target: CreatureCard) -> void:
+	# apply destruction effect
+	 
 	if target.passive_skills and target.passive_skills.destruction_effect:
-		print('apply effect = ', target.passive_skills.destruction_effect.effect.base_name)
-		target.passive_skills.destruction_effect.execute(attacker)
+		var destruction_effect = target.passive_skills.destruction_effect
+		destruction_effect.execute(attacker)
 		
-	target.queue_free()
-	
-	
+	destroy_card()

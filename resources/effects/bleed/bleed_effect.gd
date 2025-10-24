@@ -9,12 +9,20 @@ const BLEED_STATUS_URL = {
 	3: "res://resources/effects/bleed/status/bleed_3.tres"
 }
 
-
-func _init(level: int, turns: int):
+func _ready() -> void:
 	base_name = 'Bleed'
 	type = EFFECT_TYPE.DEBUFF
 	icon_url = "res://assets/status_effect/bleed.png"
 	set_effect_icon(icon_url)
+	
+
+static func create(level: int, turns: int):
+	var bleed: BleedEffect = preload("res://resources/effects/bleed/bleed.tscn").instantiate()
+	bleed.call_deferred('config', level, turns)
+	return bleed
+
+
+func config(level: int, turns: int):
 	set_status(level)
 	set_total_turns(turns)
 	config_tooltip(status.name, icon_url, status.desc, turns)

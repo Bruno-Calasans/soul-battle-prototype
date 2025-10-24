@@ -18,8 +18,12 @@ func _ready():
 		'race': CREATURE_RACE.FISH,
 		'dmg_type': DMG_TYPE.PHYSICAL
 	})
+	
+	# config resistences
 	status.dmg_resistence.set_base_resistence(Enum.DMG_TYPE.WATER, 100)
 	status.dmg_resistence.set_base_resistence(Enum.DMG_TYPE.ELETRICITY, -100)
+	
+	# config passive skills
 	passive_skills = PuffCutePassiveSkill.new()
 
 	

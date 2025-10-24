@@ -1,0 +1,2 @@
+extends DuelistSlots
+class_name PlayerSlots

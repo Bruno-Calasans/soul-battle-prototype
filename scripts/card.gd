@@ -1,6 +1,10 @@
 extends Node2D
 class_name Card
 
+
+signal on_card_destroyed(attacker: Card, target: Card)
+
+
 # Enums
 const CARD_VARIATION = Enum.CARD_VARIATION
 const CARD_RARITY = Enum.CARD_RARITY
@@ -84,3 +88,8 @@ func _on_card_area_mouse_entered() -> void:
 
 func _on_card_area_mouse_exited() -> void:
 	event_bus.card_hovered_off.emit(self)
+
+
+func destroy_card():
+	print(card_name + ' is destroyed')
+	queue_free()

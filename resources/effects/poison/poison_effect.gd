@@ -2,19 +2,27 @@ extends Effect
 class_name PoisonEffect
 
 var status: PoisonStatus
-
 var POISON_STATUS_URL = {
 	1: "res://resources/effects/poison/status/poison_1.tres",
 	2: "res://resources/effects/poison/status/poison_2.tres",
 	3: "res://resources/effects/poison/status/poison_3.tres"
 }
 
-func _init(level: int, turns: int):
-	status = PoisonStatus.new()
+func _ready() -> void:
 	base_name = 'Poison'
 	type = EFFECT_TYPE.DEBUFF
 	icon_url = "res://assets/status_effect/poison.png"
 	set_effect_icon(icon_url)
+	
+
+static func create(level: int, turns: int) -> PoisonEffect:
+	var poison: PoisonEffect = load('res://resources/effects/poison/poison.tscn').instantiate()
+	poison.call_deferred('config', level, turns)
+	return poison
+	
+
+func config(level: int, turns: int):
+	print("configuring")
 	set_total_turns(turns)
 	set_status(level)
 	config_tooltip(status.name, icon_url, status.desc, turns)
