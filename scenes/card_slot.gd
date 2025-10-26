@@ -12,9 +12,20 @@ var can_put_card_in_slot: bool = true
 
 
 func _ready() -> void:
+	connect_signals()
 	if slot_duelist_type == Enum.DUELIST_TYPE.ENEMY:
 		slot_collision.disabled = true
 
+
+func connect_signals():
+	event_bus.on_card_destroyed.connect(clear_slot_after_card_is_destroyed)
+	
+
+func clear_slot_after_card_is_destroyed(card: Card):
+	if card == card_in_slot:
+		print('Removing card from slot = ', card.card_name)
+		remove_card()
+	
 
 func can_put_this_card(card: Card, duelist_type: Enum.DUELIST_TYPE) -> bool:
 	var has_same_card_variation = card.variation == slot_variation
@@ -32,10 +43,10 @@ func insert_card(card: Card, duelist_type: Enum.DUELIST_TYPE):
 	
 func remove_card():
 	if card_in_slot:
-		card_in_slot.card_collision.disabled = false
+		if slot_duelist_type != Enum.DUELIST_TYPE.ENEMY:
+			card_in_slot.card_collision.disabled = false
 		card_in_slot = null
 		can_put_card_in_slot = true
-	
 	
 func is_empty() -> bool:
 	return card_in_slot == null

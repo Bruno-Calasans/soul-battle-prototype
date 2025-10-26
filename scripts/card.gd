@@ -18,7 +18,10 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @export var rarity: CARD_RARITY = CARD_RARITY.COMMON
 @export var desc: String = ''
 @export var img_url: String = ''
+@export var can_be_destroyed: bool = true
+@export var is_destroyed: bool = false
 var position_in_hand: Vector2
+
 
 # Visual
 @onready var name_label: Label = $CardTexture/CardExtraInfoContainer/CardNamePanel/CardNameLabel
@@ -91,5 +94,7 @@ func _on_card_area_mouse_exited() -> void:
 
 
 func destroy_card():
-	print(card_name + ' is destroyed')
-	queue_free()
+	if can_be_destroyed and not is_destroyed:
+		print(card_name + ' is destroyed')
+		is_destroyed = true
+		queue_free()

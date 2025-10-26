@@ -41,11 +41,6 @@ func _ready() -> void:
 		'race': CREATURE_RACE.HUMAN,
 		'dmg_type': DMG_TYPE.FIRE
 	})
-	
-	if effects_manager:
-		var effect = PoisonEffect.create(2, 3)
-		effects_manager.add_effect(effect)
-		$CardAnimation.play('flip')
 		
 
 func config(config: Dictionary[String, Variant]):
@@ -67,7 +62,6 @@ func config(config: Dictionary[String, Variant]):
 	status.type = config['type']
 	status.race = config['race']
 	status.dmg_type = config['dmg_type']
-	
 	
 	# visual update
 	update_icons_and_imgs()
@@ -213,11 +207,33 @@ func do_magical_damage(dmg_value: int, attacker: CreatureCard):
 		popup.popup_magical_armor_damage(dmg_value)
 
 
+func check_before_dmg(dmg: Damage):
+	status.dmg_resistence.apply_dmg_resistence(dmg)
+	
+
+func check_after_damage(dmg: Damage):
+	# check spike effect
+	if passive_skills and passive_skills.spike:
+		passive_skills.spike.execute(dmg)
+		
+	# card is destroyed
+	if status.current_health == 0:
+		
+		# check destruction effect
+		if passive_skills and passive_skills.destruction_effect:
+			passive_skills.destruction_effect.execute(dmg.origin)
+			
+		# global event to listeners
+		event_bus.on_card_destroyed.emit(self)
+		destroy_card()
+		
+
 # This creature takes damage
 func damage(dmg: Damage):
 	
 	# apply damage resistence
-	status.dmg_resistence.apply_dmg_resistence(dmg)
+	# apply damage resistence
+	check_before_dmg(dmg)
 	
 	# direct damage
 	if dmg.type == DMG_TYPE.DIRECT:
@@ -231,15 +247,8 @@ func damage(dmg: Damage):
 	else:
 		do_magical_damage(dmg.value, self)
 	
-	# checks target spike skill
-	if dmg.target.passive_skills and dmg.target.passive_skills.spike:
-		dmg.target.passive_skills.spike.execute(dmg)
-		
-		
-	if status.current_health == 0:
-		on_card_destroyed.emit(dmg.origin, self)
-	
-	# after dmgs
+	# spike check
+	check_after_damage(dmg)
 	update_labels()
 	
 	
@@ -254,23 +263,14 @@ func regen(source: Enum.REGEN_SOURCE, health: int) -> bool:
 	status.modify_health_by(heal_value)
 	update_health_label()
 	
-	if popup:
-		popup.popup_heal(health)
+	if popup: popup.popup_heal(health)
 	return true
 
 	
-func do_basic_atk(target: CreatureCard) -> bool:
-	
-	if !status.can_attack: return false
-	
+func do_basic_atk(target: CreatureCard):
+	if !status.can_attack: return
 	var dmg = Damage.new(status.current_atk, status.dmg_type, target, self)
 	target.damage(dmg)
-	
-	# apply effect after basic atk
-	if passive_skills and passive_skills.basic_atk_effect:
-		passive_skills.basic_atk_effect.apply(self, target)
-		
-	return true
 		
 
 func do_special_atk(target: CreatureCard):
@@ -282,18 +282,32 @@ func do_ultimate_atk(target: CreatureCard):
 	if status.can_attack and status.can_use_ultimate_atk and ultimate_skill:
 		ultimate_skill.execute(target)
 	
+
+func check_before_attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
+	if !status.can_attack: 
+		print(card_name, " can't attack")
+		return false
+		
+	if target.passive_skills and target.passive_skills.dodge:
+		var attack_was_dodged := target.passive_skills.dodge.execute(self, target, atk_type)
+		return attack_was_dodged
+		
+	return true
+	
+	
+func check_after_attack(target: Card, atk_type: Enum.CREATURE_ATK_TYPE):
+	# apply effect after basic atk
+	if passive_skills and passive_skills.basic_atk_effect and atk_type == Enum.CREATURE_ATK_TYPE.BASIC:
+		passive_skills.basic_atk_effect.execute(target)
+		
+
 	
 # This creature attacks others cards 
 func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE = Enum.CREATURE_ATK_TYPE.BASIC):
 	
-	if !status.can_attack: 
-		print(card_name, " can't attack")
-		return 
-	
-	# check target dodge skill
-	if target.passive_skills and target.passive_skills.dodge:
-		target.passive_skills.dodge.execute(self, target, atk_type)
-		return
+	# before attack
+	var can_continue_attack := check_before_attack(target, atk_type)
+	if not can_continue_attack: return
 	
 	# basic atk
 	if atk_type == Enum.CREATURE_ATK_TYPE.BASIC:
@@ -307,12 +321,6 @@ func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE = Enum.CREATU
 	if atk_type == Enum.CREATURE_ATK_TYPE.ULTIMATE:
 		do_ultimate_atk(target)
 		
-
-func _on_creature_destroyed(attacker: CreatureCard, target: CreatureCard) -> void:
-	# apply destruction effect
-	 
-	if target.passive_skills and target.passive_skills.destruction_effect:
-		var destruction_effect = target.passive_skills.destruction_effect
-		destruction_effect.execute(attacker)
+	# after attack
+	check_after_attack(target, atk_type)
 		
-	destroy_card()

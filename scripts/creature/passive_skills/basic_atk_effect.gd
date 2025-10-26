@@ -11,6 +11,6 @@ func can_apply_effect(target: CreatureCard):
 	return target.effects_manager.can_add_effect(effect) and Utils.calc_chance(current_chance)
 	
 	
-func apply(attacker: CreatureCard, target: CreatureCard):
+func execute(target: CreatureCard):
 	if can_apply_effect(target):
 		target.effects_manager.add_effect(effect)

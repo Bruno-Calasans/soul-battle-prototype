@@ -18,9 +18,10 @@ func can_dodge(attacker: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE):
 	return !is_dodge_ignored and atk_type in atk_types and Utils.calc_chance(current_chance)
 	
 	
-func execute(attacker: CreatureCard, target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE):
+func execute(attacker: CreatureCard, target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE) -> bool:
 	var target_dodge = target.passive_skills.dodge as DodgePassiveSkill
 	if target_dodge and target_dodge.can_dodge(attacker, atk_type) :
 		print('Attack was dodge')
-		return false
+		return true
+	return false
 	

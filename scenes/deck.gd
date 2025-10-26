@@ -12,12 +12,9 @@ var draw_this_turn: bool = false
 @onready var card_counter_label: Label = $DeckTexture/CardCounter
 @onready var deck_collision: CollisionShape2D = $DeckArea/DeckCollision
 
-#func _ready() -> void:
-#	config()
-	
 
 func config():
-	add_cards()
+	create_cards_from_data()
 	shuffle()
 	start_draw()
 
@@ -30,8 +27,19 @@ func start_draw():
 	# you can draw one time this turn
 	draw_this_turn = false
 	
+	
+func add_card(card: Card):
+	cards.append(card)
+	modify_card_counter(1)
 
-func add_cards():
+
+func remove_card(card: Card):
+	if card in cards:
+		cards.erase(card)
+		modify_card_counter(-1)
+
+
+func create_cards_from_data():
 	for i in range(duelist.deck_data.size()):
 		var card_data: Dictionary = duelist.deck_data[i]
 		var card_scene: PackedScene = load(card_data['path'])
@@ -41,11 +49,9 @@ func add_cards():
 			card.position = position
 			if card and card.card_collision:
 				card.card_collision.disabled = true
-				
-			cards.append(card)
-			modify_card_counter(1)
+			add_card(card)
 		
-
+		
 func shuffle():
 	if cards.size() > 1:
 		cards.shuffle()

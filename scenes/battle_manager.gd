@@ -176,7 +176,6 @@ func animate_card_direct_atk(card: Card, duelist_type: Enum.DUELIST_TYPE):
 	await timer(END_ATK_WAITING_TIME)
 	
 	
-	
 func animate_card_atk(card: Card, attacked_card: Card):
 	var default_pos := card.position
 	var default_z_index := card.z_index
@@ -189,7 +188,6 @@ func animate_card_atk(card: Card, attacked_card: Card):
 	
 	animate_to_position(card, default_pos, END_ATK_SPEED)
 	await timer(START_ATK_WAITING_TIME)
-	
 	
 	
 func opponent_draw():

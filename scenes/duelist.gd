@@ -22,6 +22,7 @@ var deck_data: Array[Dictionary] = [{
 @onready var health_label: Label = $Info/Health/Value
 @onready var deck: Deck = $Deck
 @onready var hand: CardHand = $Hand
+@onready var duelist_void: Void = $Void
 
 
 func _ready() -> void:
