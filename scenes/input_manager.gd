@@ -20,19 +20,20 @@ func _input(event: InputEvent) -> void:
 			if not duelist: return
 			
 			# get target card
+			print(drag_manager.can_drag, highlight_manager.can_highlight)
 			if first_node is CardArea and not drag_manager.can_drag and not highlight_manager.can_highlight:
 				var target_card := card_manager.get_card_on_top()
 				event_bus.on_creature_select_target.emit(target_card)
 				
 			# it fixes the bug where you drag the background card
 			# is dragged instead the card where you mouse is hovering on
-			if first_node is CardArea and drag_manager.can_drag:
+			elif first_node is CardArea and drag_manager.can_drag:
 				print('Start to dragging')
 				var top_card := card_manager.get_card_on_top()
 				drag_manager.start_drag(top_card)
 		
 			# draw after click deck
-			if first_node is DeckArea:
+			elif first_node is DeckArea:
 				duelist.deck.turn_draw()
 				
 		else:

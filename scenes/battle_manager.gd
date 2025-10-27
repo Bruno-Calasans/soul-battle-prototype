@@ -64,11 +64,10 @@ func after_attack_handler(target: Card):
 	
 	if attacker_card is CreatureCard:
 		attack_line.stop()
-		drag_manager.can_drag = true
-		card_hightlight.can_highlight = true
-		
 		await animate_card_atk(attacker_card, target_card)
 		attacker_card.attack(target)
+		drag_manager.can_drag = true
+		card_hightlight.can_highlight = true
 		
 		
 			
