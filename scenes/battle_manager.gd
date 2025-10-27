@@ -15,6 +15,7 @@ var is_player_controllers_disabled: bool = true
 var attacker_card: Card
 var target_card: Card
 var attack_type: Enum.CREATURE_ATK_TYPE
+var is_attacking: bool = false
 
 @onready var player: Player = $"../Player"
 @onready var opponent: Opponent = $"../Opponent"
@@ -25,52 +26,84 @@ var attack_type: Enum.CREATURE_ATK_TYPE
 @onready var turn_label: Label = $"../Slots/Buttons/TurnContainer/Value"
 @onready var attack_line: AttackLine = $"../AttackLine"
 @onready var drag_manager: CardDragManager = $"../CardDragManager"
-@onready var card_hightlight: CardHighlightManager = $"../CardHighlightManager"
+@onready var highlight_manager: CardHighlightManager = $"../CardHighlightManager"
 
 
 func _ready() -> void:
 	event_bus.on_card_destroyed.connect(card_destroyed_handler)
-	event_bus.on_creature_attack.connect(before_attack_handler)
-	event_bus.on_creature_select_target.connect(after_attack_handler)
+	event_bus.on_creature_attack.connect(on_creature_attack)
+	event_bus.on_creature_select_target.connect(on_creature_selected)
+	event_bus.on_creature_cancel_attack.connect(on_cancel_attack)
+	
+
+func toggle_player_collision(value: bool):
+	player.deck.deck_collision.disabled = not value
+	for card in player.hand.cards:
+		card.card_collision.disabled = not value
 	
 	
-func before_attack_handler(attacker: Card, type: Enum.CREATURE_ATK_TYPE):
+func toggle_opponent_collision(value: bool) -> Array[Card]:
+	var field_cards := opponent_slots.get_all_cards_on_field()
+	for card in field_cards:
+		card.card_collision.disabled = not value
+	return field_cards
+
+	
+func on_creature_attack(attacker: Card, type: Enum.CREATURE_ATK_TYPE):
+	if is_attacking: return
+	
+	print('Start attack')
 	attacker_card = attacker
 	attack_type = type
 	drag_manager.can_drag = false
-	card_hightlight.can_highlight = false
+	highlight_manager.can_highlight = false
+	is_attacking = true
 	
-	var field_cards = opponent_slots.get_all_creatures()
+	var field_cards = toggle_opponent_collision(true)
 	
 	# direct attack opponent
 	if field_cards.is_empty():
 		await animate_card_direct_atk(attacker, Enum.DUELIST_TYPE.PLAYER)
 		opponent.direct_damage(attacker.status.current_atk)
+		attacker_card = null
+		target_card = null
 		drag_manager.can_drag = true
-		card_hightlight.can_highlight = true
+		highlight_manager.can_highlight = true
+		is_attacking = false
 		
 	# attack card on the field
 	else:
 		attack_line.start(attacker.position)
-		for card in field_cards: 
-			card.card_collision.disabled = false
 	
 
-func after_attack_handler(target: Card):
+func on_creature_selected(target: Card):
+	if not is_attacking: return
+	
+	print('Select target')
 	target_card = target
-	var field_cards = opponent_slots.get_all_creatures()
-	for card in field_cards: 
-			card.card_collision.disabled = true
+	toggle_opponent_collision(false)
 	
 	if attacker_card is CreatureCard:
 		attack_line.stop()
 		await animate_card_atk(attacker_card, target_card)
 		attacker_card.attack(target)
+		attacker_card = null
+		target_card = null
 		drag_manager.can_drag = true
-		card_hightlight.can_highlight = true
+		highlight_manager.can_highlight = true
+		is_attacking = false
+
+
+func on_cancel_attack():
+	if is_attacking:
+		attacker_card = null
+		target_card = null
+		drag_manager.can_drag = true
+		highlight_manager.can_highlight = true
+		is_attacking = false
+		toggle_opponent_collision(false)
 		
 		
-			
 func card_destroyed_handler(card: Card):
 	if card.duelist_type == Enum.DUELIST_TYPE.PLAYER:
 		player.duelist_void.add_card(card)
@@ -270,6 +303,7 @@ func start_opponent_turn():
 	# before start
 	next_turn()
 	toggle_player_controllers()
+	toggle_player_collision(false)
 	
 	# draws a card
 	opponent_draw()
@@ -286,6 +320,7 @@ func end_opponent_turn():
 	player.deck.reset_draw()
 	player.deck.turn_draw()
 	toggle_player_controllers()
+	toggle_player_collision(true)
 	next_turn()
 	
 

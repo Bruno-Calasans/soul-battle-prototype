@@ -55,7 +55,7 @@ func find_card_slot(card: Card) -> CardSlot:
 	return null
 
 
-func get_all_cards() -> Array[Card]:
+func get_all_cards_on_field() -> Array[Card]:
 	var cards: Array[Card] = []
 	var slots := get_all_slots()
 	
