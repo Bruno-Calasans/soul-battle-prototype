@@ -224,6 +224,8 @@ func check_after_damage(dmg: Damage):
 			passive_skills.destruction_effect.execute(dmg.origin)
 			
 		# global event to listeners
+		# card slot
+		# void
 		event_bus.on_card_destroyed.emit(self)
 		destroy_card()
 		
@@ -268,18 +270,26 @@ func regen(source: Enum.REGEN_SOURCE, health: int) -> bool:
 
 	
 func do_basic_atk(target: CreatureCard):
-	if !status.can_attack: return
+	if not status.can_attack: return
 	var dmg = Damage.new(status.current_atk, status.dmg_type, target, self)
 	target.damage(dmg)
 		
 
+
+func can_do_special_atk() -> bool:
+	return  status.can_attack and status.can_use_special_atk and special_skill
+
+
 func do_special_atk(target: CreatureCard):
-	if status.can_attack and status.can_use_special_atk and special_skill:
-		special_skill.execute(target)
+	if can_do_special_atk(): special_skill.execute(target)
+	
+
+func can_do_ultimate_atk() -> bool:
+	return 	status.can_attack and status.can_use_ultimate_atk and ultimate_skill
 	
 	
 func do_ultimate_atk(target: CreatureCard):
-	if status.can_attack and status.can_use_ultimate_atk and ultimate_skill:
+	if can_do_ultimate_atk():
 		ultimate_skill.execute(target)
 	
 
@@ -297,11 +307,11 @@ func check_before_attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE)
 	
 func check_after_attack(target: Card, atk_type: Enum.CREATURE_ATK_TYPE):
 	# apply effect after basic atk
-	if passive_skills and passive_skills.basic_atk_effect and atk_type == Enum.CREATURE_ATK_TYPE.BASIC:
+	if atk_type == Enum.CREATURE_ATK_TYPE.BASIC and passive_skills and passive_skills.basic_atk_effect:
 		passive_skills.basic_atk_effect.execute(target)
 		
 
-	
+
 # This creature attacks others cards 
 func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE = Enum.CREATURE_ATK_TYPE.BASIC):
 	

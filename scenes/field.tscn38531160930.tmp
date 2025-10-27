@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://4b4mmwa32sie"]
+[gd_scene load_steps=11 format=3 uid="uid://4b4mmwa32sie"]
 
 [ext_resource type="Script" uid="uid://oxllmmg40a2h" path="res://scenes/opponent_slots.gd" id="1_tcubs"]
 [ext_resource type="PackedScene" uid="uid://uxbhskl7tbo4" path="res://scenes/duelist.tscn" id="2_aaam2"]
@@ -10,9 +10,6 @@
 [ext_resource type="Script" uid="uid://ba58dtv10lik2" path="res://scenes/battle_manager.gd" id="8_vjqoj"]
 [ext_resource type="PackedScene" uid="uid://bwlc635y3pf6k" path="res://context.tscn" id="9_aaam2"]
 [ext_resource type="PackedScene" uid="uid://b20c8i4kpp24f" path="res://attack_line.tscn" id="10_5qjf2"]
-[ext_resource type="Script" uid="uid://oqfjykhvg6vl" path="res://scenes/input_manager.gd" id="11_mwwu5"]
-[ext_resource type="Script" uid="uid://cyu5bqo3gxh1t" path="res://scenes/card_drag_manager.gd" id="12_kxpcs"]
-[ext_resource type="Script" uid="uid://dty8ro5m6o1xy" path="res://scenes/card_highlight_manager.gd" id="13_35llp"]
 
 [node name="Field" type="Control"]
 layout_mode = 3
@@ -221,15 +218,6 @@ script = ExtResource("8_vjqoj")
 visible = false
 
 [node name="AttackLine" parent="." instance=ExtResource("10_5qjf2")]
-
-[node name="InputManager" type="Node2D" parent="."]
-script = ExtResource("11_mwwu5")
-
-[node name="CardDragManager" type="Node2D" parent="."]
-script = ExtResource("12_kxpcs")
-
-[node name="CardHighlightManager" type="Node2D" parent="."]
-script = ExtResource("13_35llp")
 
 [connection signal="pressed" from="Slots/Buttons/BattlePhaseButton" to="BattleManager" method="_on_battle_phase_button_pressed"]
 [connection signal="pressed" from="Slots/Buttons/EndTurnButton" to="BattleManager" method="_on_end_turn_button_pressed"]

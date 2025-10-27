@@ -12,6 +12,9 @@ const END_ATK_WAITING_TIME = 0.1
 
 var current_turn: int = 1
 var is_player_controllers_disabled: bool = true
+var attacker_card: Card
+var target_card: Card
+var attack_type: Enum.CREATURE_ATK_TYPE
 
 @onready var player: Player = $"../Player"
 @onready var opponent: Opponent = $"../Opponent"
@@ -20,6 +23,62 @@ var is_player_controllers_disabled: bool = true
 @onready var battle_button: Button = $"../Slots/Buttons/BattlePhaseButton"
 @onready var end_turn_button: Button = $"../Slots/Buttons/EndTurnButton"
 @onready var turn_label: Label = $"../Slots/Buttons/TurnContainer/Value"
+@onready var attack_line: AttackLine = $"../AttackLine"
+@onready var drag_manager: CardDragManager = $"../CardDragManager"
+@onready var card_hightlight: CardHighlightManager = $"../CardHighlightManager"
+
+
+func _ready() -> void:
+	event_bus.on_card_destroyed.connect(card_destroyed_handler)
+	event_bus.on_creature_attack.connect(before_attack_handler)
+	event_bus.on_creature_select_target.connect(after_attack_handler)
+	
+	
+func before_attack_handler(attacker: Card, type: Enum.CREATURE_ATK_TYPE):
+	attacker_card = attacker
+	attack_type = type
+	drag_manager.can_drag = false
+	card_hightlight.can_highlight = false
+	
+	var field_cards = opponent_slots.get_all_creatures()
+	
+	# direct attack opponent
+	if field_cards.is_empty():
+		await animate_card_direct_atk(attacker, Enum.DUELIST_TYPE.PLAYER)
+		opponent.direct_damage(attacker.status.current_atk)
+		drag_manager.can_drag = true
+		card_hightlight.can_highlight = true
+		
+	# attack card on the field
+	else:
+		attack_line.start(attacker.position)
+		for card in field_cards: 
+			card.card_collision.disabled = false
+	
+
+func after_attack_handler(target: Card):
+	target_card = target
+	var field_cards = opponent_slots.get_all_creatures()
+	for card in field_cards: 
+			card.card_collision.disabled = true
+	
+	if attacker_card is CreatureCard:
+		attack_line.stop()
+		drag_manager.can_drag = true
+		card_hightlight.can_highlight = true
+		
+		await animate_card_atk(attacker_card, target_card)
+		attacker_card.attack(target)
+		
+		
+			
+func card_destroyed_handler(card: Card):
+	if card.duelist_type == Enum.DUELIST_TYPE.PLAYER:
+		player.duelist_void.add_card(card)
+		player_slots.find_card_slot(card).remove_card()
+	else:
+		opponent.duelist_void.add_card(card)
+		opponent_slots.find_card_slot(card).remove_card()
 
 
 func choose_card_slot() -> CardSlot:
@@ -159,7 +218,7 @@ func animate_card_direct_atk(card: Card, duelist_type: Enum.DUELIST_TYPE):
 	var default_pos := card.position
 	var default_z_index := card.z_index
 	var new_pos_x := default_pos.x
-	var new_pos_y: float = 0
+	var new_pos_y: float = -200
 	
 	if duelist_type ==  Enum.DUELIST_TYPE.ENEMY:
 		new_pos_y = 600
@@ -185,7 +244,7 @@ func animate_card_atk(card: Card, attacked_card: Card):
 	animate_to_position(card, attacked_card_pos, START_ATK_SPEED)
 	await timer(START_ATK_WAITING_TIME)
 	
-	
+	card.z_index = default_z_index
 	animate_to_position(card, default_pos, END_ATK_SPEED)
 	await timer(START_ATK_WAITING_TIME)
 	
@@ -226,6 +285,7 @@ func start_opponent_turn():
 func end_opponent_turn():
 	await timer(END_TURN_WAITING_TIME)
 	player.deck.reset_draw()
+	player.deck.turn_draw()
 	toggle_player_controllers()
 	next_turn()
 	

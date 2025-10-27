@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://bwlc635y3pf6k"]
+
+[ext_resource type="Script" uid="uid://b0sblwe6ubo3b" path="res://context.gd" id="1_fklui"]
+[ext_resource type="Texture2D" uid="uid://eg7ycc0ihgr4" path="res://assets/creature/bottom_icons/atk.png" id="2_mqyqu"]
+[ext_resource type="Texture2D" uid="uid://tnklqjpt4qs5" path="res://assets/context_menu/special_attack.png" id="3_8t5qa"]
+[ext_resource type="Texture2D" uid="uid://lyaipdbyd3pb" path="res://assets/context_menu/ultimate_attack.png" id="4_jm6c8"]
+[ext_resource type="Texture2D" uid="uid://cnqkyk4th6rxk" path="res://assets/context_menu/cancel.png" id="5_jm6c8"]
+
+[node name="ContextMenu" type="Node2D"]
+script = ExtResource("1_fklui")
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+oversampling_override = 1.0
+size = Vector2i(172, 169)
+visible = true
+theme_override_constants/v_separation = 13
+theme_override_constants/icon_max_width = 24
+theme_override_font_sizes/font_size = 12
+allow_search = false
+item_count = 5
+item_0/text = "Basic Atk"
+item_0/icon = ExtResource("2_mqyqu")
+item_0/id = 0
+item_1/text = "Special Skill (1 soul)"
+item_1/icon = ExtResource("3_8t5qa")
+item_1/id = 1
+item_2/text = "Ultimate Skill (2 souls)"
+item_2/icon = ExtResource("4_jm6c8")
+item_2/id = 2
+item_3/id = 999
+item_3/separator = true
+item_4/text = "Cancelar"
+item_4/icon = ExtResource("5_jm6c8")
+item_4/id = 3

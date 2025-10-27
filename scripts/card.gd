@@ -21,6 +21,7 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @export var can_be_destroyed: bool = true
 @export var is_destroyed: bool = false
 var position_in_hand: Vector2
+var duelist_type: Enum.DUELIST_TYPE
 
 
 # Visual
