@@ -1,0 +1,537 @@
+[gd_scene load_steps=16 format=3 uid="uid://c8jkchxwm3bjo"]
+
+[ext_resource type="Script" uid="uid://d15isrbd7bj30" path="res://card/base/card.gd" id="1_aytv2"]
+[ext_resource type="Texture2D" uid="uid://bnvv0kdb5eeim" path="res://assets/creature/rarity_base_card/common_creature.png" id="2_p5rac"]
+[ext_resource type="Texture2D" uid="uid://xuqq05k7xq4r" path="res://assets/creature/img/baiacu_fofinho.jpg" id="3_twfyo"]
+[ext_resource type="Texture2D" uid="uid://loejcsv6msvb" path="res://assets/card/general/card_circle.svg" id="4_8vf7c"]
+[ext_resource type="Texture2D" uid="uid://obaiyn37bxgq" path="res://assets/creature/type_icon/skill.svg" id="5_qcy4r"]
+[ext_resource type="Script" uid="uid://cubs7nhasfkbx" path="res://card/base/card_area.gd" id="6_2fy1b"]
+[ext_resource type="Texture2D" uid="uid://ck1g1m2ju2bih" path="res://assets/deck/deck.png" id="7_whjl5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nvopj"]
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ligt"]
+bg_color = Color(0.28627452, 0.28235295, 0.28235295, 1)
+border_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1yd6c"]
+bg_color = Color(0.28627452, 0.28235295, 0.28235295, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0.19665265, 0.1935561, 0.1935561, 1)
+shadow_size = 12
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sy11y"]
+size = Vector2(191.40622, 265.62497)
+
+[sub_resource type="Animation" id="Animation_nvopj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBackTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardTexture:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardTexture:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.8, 0.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardTexture:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CardTexture/CardArea/Colision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CardBackTexture:z_index")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_8w5pg"]
+resource_name = "flip"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBackTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(0.2, 0.8), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardTexture:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardTexture:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.2, 0.8), Vector2(0.8, 0.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardTexture:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CardTexture/CardArea/Colision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CardBackTexture:z_index")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, -1]
+}
+
+[sub_resource type="Animation" id="Animation_1yd6c"]
+resource_name = "flip_enemy"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CardBackTexture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.8, 0.8), Vector2(0.2, 0.8), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CardTexture:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CardTexture:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(0.2, 0.8), Vector2(0.8, 0.8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CardTexture:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 1]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CardTexture/CardArea/Colision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CardBackTexture:z_index")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.16666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1, -1]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.3),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [3.141592653589793]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nvopj"]
+_data = {
+&"RESET": SubResource("Animation_nvopj"),
+&"flip": SubResource("Animation_8w5pg"),
+&"flip_enemy": SubResource("Animation_1yd6c")
+}
+
+[node name="Card" type="Node2D"]
+position = Vector2(1.9073486e-06, 0)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("1_aytv2")
+
+[node name="CardTexture" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+clip_contents = true
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -105.0
+offset_right = 75.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(75, 105.00001)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_p5rac")
+expand_mode = 1
+
+[node name="CardImgContainer" type="Panel" parent="CardTexture"]
+clip_children = 2
+clip_contents = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.51000005
+offset_bottom = -0.3100586
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nvopj")
+
+[node name="CardImg" type="TextureRect" parent="CardTexture/CardImgContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_twfyo")
+expand_mode = 1
+
+[node name="CardExtraInfoContainer" type="VBoxContainer" parent="CardTexture"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.49100003
+anchor_right = 0.5
+anchor_bottom = 0.49100003
+offset_left = -45.312473
+offset_top = -25.310013
+offset_right = 174.68753
+offset_bottom = 84.68999
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+mouse_filter = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="CardNamePanel" type="Panel" parent="CardTexture/CardExtraInfoContainer"]
+custom_minimum_size = Vector2(220, 40)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_6ligt")
+
+[node name="CardNameLabel" type="Label" parent="CardTexture/CardExtraInfoContainer/CardNamePanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 18
+text = "Card Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardTagPanel" type="Panel" parent="CardTexture/CardExtraInfoContainer"]
+custom_minimum_size = Vector2(160, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_1yd6c")
+
+[node name="CardTagLabel" type="Label" parent="CardTexture/CardExtraInfoContainer/CardTagPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 14
+text = "Humano "
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardBasicInfo" type="VBoxContainer" parent="CardTexture"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.016
+anchor_top = 0.021000002
+anchor_right = 0.18200001
+anchor_bottom = 0.279
+offset_left = -0.055000305
+offset_top = 0.104999065
+offset_right = 25.045
+offset_bottom = 53.924995
+scale = Vector2(0.5, 0.5)
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="CardSoulCostTexture" type="TextureRect" parent="CardTexture/CardBasicInfo"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_8vf7c")
+expand_mode = 1
+
+[node name="CardSoulCostLabel" type="Label" parent="CardTexture/CardBasicInfo/CardSoulCostTexture"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -21.0
+offset_right = 15.0
+offset_bottom = 21.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="CardTypeTexture" type="TextureRect" parent="CardTexture/CardBasicInfo"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("4_8vf7c")
+expand_mode = 1
+
+[node name="CardTypeIcon" type="TextureRect" parent="CardTexture/CardBasicInfo/CardTypeTexture"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+texture = ExtResource("5_qcy4r")
+expand_mode = 1
+
+[node name="CardDescContainer" type="Control" parent="CardTexture"]
+layout_mode = 1
+anchor_left = 0.044000003
+anchor_top = 0.624
+anchor_right = 0.96400005
+anchor_bottom = 0.9110001
+offset_left = -0.18800163
+offset_top = 0.25598145
+offset_right = -0.028015137
+offset_bottom = 0.40893555
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CardDescLabel" type="RichTextLabel" parent="CardTexture/CardDescContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 10
+theme_override_font_sizes/bold_font_size = 10
+bbcode_enabled = true
+text = "[b]Passivo:[/b]
+Quando tiver 50% da vida ou menos, aumenta o ataque deste card em +4.
++200% de resistência a sangramento.
+Todos os ataques têm 20% de causar [color=#ff0000][u]Sangramento II[/u][/color]
+
+[b]Masoquismo (especial): [/b]
+perca 4 pontos de vida e ataque com dano físico de 20.
+
+[b]Dança de Sangue (ultimato): [/b]
+ataque duas vezes com 10 de ataque físico ."
+
+[node name="CardArea" type="Area2D" parent="CardTexture"]
+scale = Vector2(1.0000001, 1.0000001)
+collision_mask = 3
+script = ExtResource("6_2fy1b")
+
+[node name="Colision" type="CollisionShape2D" parent="CardTexture/CardArea"]
+position = Vector2(74.99997, 103.437485)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("RectangleShape2D_sy11y")
+
+[node name="CardBackTexture" type="TextureRect" parent="."]
+z_index = -1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -75.00001
+offset_top = -105.00001
+offset_right = 74.99999
+offset_bottom = 104.99999
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(75, 105)
+texture = ExtResource("7_whjl5")
+expand_mode = 1
+
+[node name="CardAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_nvopj")
+}
+
+[connection signal="mouse_entered" from="CardTexture/CardArea" to="." method="_on_card_area_mouse_entered"]
+[connection signal="mouse_exited" from="CardTexture/CardArea" to="." method="_on_card_area_mouse_exited"]

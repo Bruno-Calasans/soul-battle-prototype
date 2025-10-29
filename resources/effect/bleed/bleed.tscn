@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://dncko2cjis0ax"]
+
+[ext_resource type="PackedScene" uid="uid://bsg48442cd8ft" path="res://resources/effect/effect.tscn" id="1_igt2e"]
+[ext_resource type="Script" uid="uid://qi76gcmdwuh7" path="res://resources/effect/bleed/bleed_effect.gd" id="2_cd2i6"]
+
+[node name="Bleed" instance=ExtResource("1_igt2e")]
+script = ExtResource("2_cd2i6")

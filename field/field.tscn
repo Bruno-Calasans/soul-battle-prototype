@@ -1,0 +1,247 @@
+[gd_scene load_steps=17 format=3 uid="uid://4b4mmwa32sie"]
+
+[ext_resource type="Script" uid="uid://oxllmmg40a2h" path="res://field/opponent_slots.gd" id="1_wdk0v"]
+[ext_resource type="PackedScene" uid="uid://dajdunb2sry23" path="res://duelist/card_slot/card_slot.tscn" id="2_7gem3"]
+[ext_resource type="Script" uid="uid://2m8kla1bf3gm" path="res://field/player_slots.gd" id="3_2brfb"]
+[ext_resource type="PackedScene" uid="uid://uxbhskl7tbo4" path="res://duelist/duelist.tscn" id="4_0253r"]
+[ext_resource type="Script" uid="uid://d287umwnduivn" path="res://field/player.gd" id="5_w02ep"]
+[ext_resource type="Script" uid="uid://x7cftfrrj0ko" path="res://field/opponent.gd" id="6_1ah5r"]
+[ext_resource type="Script" uid="uid://cng38meiadx7g" path="res://field/card_manager.gd" id="7_cj17w"]
+[ext_resource type="PackedScene" uid="uid://bwlc635y3pf6k" path="res://ui/card_context_menu/context.tscn" id="8_1wj1n"]
+[ext_resource type="PackedScene" uid="uid://b20c8i4kpp24f" path="res://attack_line/attack_line.tscn" id="9_tc3x4"]
+[ext_resource type="Script" uid="uid://oqfjykhvg6vl" path="res://field/input_manager.gd" id="10_vg36m"]
+[ext_resource type="Script" uid="uid://cyu5bqo3gxh1t" path="res://field/card_drag_manager.gd" id="11_8qjuk"]
+[ext_resource type="Script" uid="uid://dty8ro5m6o1xy" path="res://field/card_highlight_manager.gd" id="12_kvrwt"]
+[ext_resource type="Script" uid="uid://ba58dtv10lik2" path="res://field/battle_manager.gd" id="13_th5du"]
+[ext_resource type="Script" uid="uid://dcln64flbps87" path="res://field/turn_manager.gd" id="14_5fjag"]
+[ext_resource type="Script" uid="uid://dosmqq5kbt2j1" path="res://field/player_battle_manager.gd" id="15_7gix2"]
+[ext_resource type="Script" uid="uid://0nsp5cjwsnbt" path="res://field/opponent_manager.gd" id="16_h4dss"]
+
+[node name="Field" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Slots" type="VBoxContainer" parent="."]
+z_index = -1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -369.5
+offset_right = 275.0
+offset_bottom = 369.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+pivot_offset = Vector2(275, 370)
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="OpponentSlots" type="VBoxContainer" parent="Slots"]
+custom_minimum_size = Vector2(550, 350)
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+script = ExtResource("1_wdk0v")
+
+[node name="BackSlots" type="HBoxContainer" parent="Slots/OpponentSlots"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="CardSlot" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+slot_duelist_type = 1
+
+[node name="CardSlot2" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+slot_duelist_type = 1
+
+[node name="CardSlot3" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+slot_duelist_type = 1
+
+[node name="CardSlot4" parent="Slots/OpponentSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+slot_duelist_type = 1
+
+[node name="FrontSlots" type="HBoxContainer" parent="Slots/OpponentSlots"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="CardSlot" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_duelist_type = 1
+
+[node name="CardSlot2" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_duelist_type = 1
+
+[node name="CardSlot3" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_duelist_type = 1
+
+[node name="CardSlot4" parent="Slots/OpponentSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_duelist_type = 1
+
+[node name="Buttons" type="HBoxContainer" parent="Slots"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="TurnContainer" type="HBoxContainer" parent="Slots/Buttons"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Slots/Buttons/TurnContainer"]
+layout_mode = 2
+text = "Turno:"
+
+[node name="Value" type="Label" parent="Slots/Buttons/TurnContainer"]
+layout_mode = 2
+text = "1"
+
+[node name="BattlePhaseButton" type="Button" parent="Slots/Buttons"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+text = "Battle Phase"
+
+[node name="EndTurnButton" type="Button" parent="Slots/Buttons"]
+layout_mode = 2
+text = "End turn"
+
+[node name="PlayerSlots" type="VBoxContainer" parent="Slots"]
+custom_minimum_size = Vector2(550, 350)
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+script = ExtResource("3_2brfb")
+
+[node name="FrontSlots" type="HBoxContainer" parent="Slots/PlayerSlots"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="CardSlot" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CardSlot2" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CardSlot3" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="CardSlot4" parent="Slots/PlayerSlots/FrontSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+
+[node name="BackSlots" type="HBoxContainer" parent="Slots/PlayerSlots"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 2
+
+[node name="CardSlot" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+
+[node name="CardSlot2" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+
+[node name="CardSlot3" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+
+[node name="CardSlot4" parent="Slots/PlayerSlots/BackSlots" instance=ExtResource("2_7gem3")]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+slot_variation = 1
+
+[node name="Player" parent="." groups=["Player"] instance=ExtResource("4_0253r")]
+script = ExtResource("5_w02ep")
+
+[node name="Opponent" parent="." groups=["Opponent"] instance=ExtResource("4_0253r")]
+script = ExtResource("6_1ah5r")
+
+[node name="CardManager" type="Node2D" parent="."]
+script = ExtResource("7_cj17w")
+
+[node name="ContextMenu" parent="." instance=ExtResource("8_1wj1n")]
+visible = false
+
+[node name="AttackLine" parent="." instance=ExtResource("9_tc3x4")]
+
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("10_vg36m")
+
+[node name="CardDragManager" type="Node2D" parent="."]
+script = ExtResource("11_8qjuk")
+
+[node name="CardHighlightManager" type="Node2D" parent="."]
+script = ExtResource("12_kvrwt")
+
+[node name="BattleManager" type="Node" parent="."]
+script = ExtResource("13_th5du")
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("14_5fjag")
+
+[node name="PlayerBattleManager" type="Node" parent="."]
+script = ExtResource("15_7gix2")
+
+[node name="OpponentManager" type="Node" parent="."]
+script = ExtResource("16_h4dss")
+
+[connection signal="pressed" from="Slots/Buttons/BattlePhaseButton" to="BattleManager" method="_on_battle_phase_button_pressed"]
+[connection signal="pressed" from="Slots/Buttons/EndTurnButton" to="BattleManager" method="_on_end_turn_button_pressed"]

@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsg48442cd8ft"]
+
+[ext_resource type="Script" uid="uid://b0lvd5tkhvnio" path="res://resources/effect/effect.gd" id="1_qr8jy"]
+[ext_resource type="Texture2D" uid="uid://cbf45fqfl3mwm" path="res://assets/status_effect/bleed.png" id="2_ws713"]
+[ext_resource type="PackedScene" uid="uid://c1c70b3diommu" path="res://ui/tooltip/tooltip.tscn" id="3_i0b07"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xsprb"]
+content_margin_top = 840.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.08627451, 0.6627451, 0.56078434, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+corner_detail = 20
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+anti_aliasing_size = 0.163
+
+[node name="Effect" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_qr8jy")
+
+[node name="Icon" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ws713")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="LevelContainer" type="Panel" parent="Icon"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_xsprb")
+
+[node name="LevelLabel" type="Label" parent="Icon/LevelContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 10
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tooltip" parent="." instance=ExtResource("3_i0b07")]
+visible = false
+layout_mode = 0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

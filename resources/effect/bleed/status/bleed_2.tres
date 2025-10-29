@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BleedStatus" load_steps=2 format=3 uid="uid://84ev67jm5bto"]
+
+[ext_resource type="Script" uid="uid://dgkdp82v14gln" path="res://resources/effect/bleed/bleed_status.gd" id="1_b1nhb"]
+
+[resource]
+script = ExtResource("1_b1nhb")
+name = "Bleed II"
+desc = "Cause 4 de dano direto por turno."
+dmg = 4
+level = 2
+metadata/_custom_type_script = "uid://dgkdp82v14gln"
