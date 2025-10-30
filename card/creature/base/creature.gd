@@ -11,7 +11,7 @@ const CREATURE_TYPE_ICONS = Enum.CREATURE_TYPE_ICONS
 const CREATURE_DMG_TYPE_ICONS = Enum.CREATURE_DMG_TYPE_ICONS
 
 # instances
-@onready var status: CreatureStatus
+@onready var status: CreatureStatus = CreatureStatus.new()
 @onready var passive_skills: CreaturePassiveSkill
 @onready var special_skill: CreatureSpecialSkill
 @onready var ultimate_skill: CreatureUltimateSkill
@@ -39,66 +39,54 @@ func _ready() -> void:
 		'base_magical_armor': 1,
 		'type': CREATURE_TYPE.ANIMAL,
 		'race': CREATURE_RACE.HUMAN,
-		'dmg_type': DMG_TYPE.FIRE
+		'dmg_type': DMG_TYPE.FIRE,
+		'rarity': CARD_RARITY.COMMON
 	})
 		
 
-func config(config: Dictionary[String, Variant]):
-	
-	# create basic instances
-	status = CreatureStatus.new()
-	
+func config(config_data: Dictionary[String, Variant]):
 	# main card config
-	set_card_name(config['name'])
-	set_card_desc(config['desc'])
-	set_soul_cost(config['soul_cost'])
-	set_card_img(config['img_url'])
+	set_card_name(config_data['name'])
+	set_card_desc(config_data['desc'])
+	set_soul_cost(config_data['soul_cost'])
+	set_card_img(config_data['img_url'])
 	
 	# status config
-	status.set_base_atk(config['base_atk'])
-	status.set_base_health(config['base_health'])
-	status.set_base_physical_armor(config['base_physical_armor'])
-	status.set_base_magical_armor(config['base_magical_armor'])
-	status.type = config['type']
-	status.race = config['race']
-	status.dmg_type = config['dmg_type']
+	status.set_base_atk(config_data['base_atk'])
+	status.set_base_health(config_data['base_health'])
+	status.set_base_physical_armor(config_data['base_physical_armor'])
+	status.set_base_magical_armor(config_data['base_magical_armor'])
 	
-	# visual update
-	update_icons_and_imgs()
+	set_creature_tags(config_data['race'], config_data['rarity'])
+	set_creature_type(config_data['type'])
+	set_creature_dmg_type(config_data['dmg_type'])
+	
 	update_labels()
-	
-
-func update_icons_and_imgs():
-	update_card_img()
-	update_creature_type_icon()
-	update_creature_dmg_type_icon()
 	
 		
 func update_labels():
-	update_card_name_label()
-	update_card_desc_label()
-	update_card_soul_cost_label()
 	update_atk_label()
 	update_health_label()
 	update_physical_armor_label()
 	update_magical_armor_label()
-	update_creature_tags_label()
 	
 	
-func update_creature_tags_label():
-	var race_name = CREATURE_RACE_NAMES[status.race]
-	var rarity_name = CARD_RARITY_NAMES[rarity]
-	update_card_tags([race_name, rarity_name])
+func set_creature_tags(creature_race: Enum.CREATURE_RACE, crature_rarity: Enum.CARD_RARITY):
+	status.race = creature_race
+	rarity = crature_rarity
+	set_card_tags([CREATURE_RACE_NAMES[creature_race], CARD_RARITY_NAMES[crature_rarity]])
 	
 
-func update_creature_type_icon():
-	var creature_type = status.type
-	update_type_icon(CREATURE_TYPE_ICONS[creature_type])	
+func set_creature_type(creature_type: Enum.CREATURE_TYPE):
+	status.type = creature_type
+	set_type_icon(CREATURE_TYPE_ICONS[creature_type])	
 	
 	
-func update_creature_dmg_type_icon():
-	var dmg_type = status.dmg_type
-	set_dmg_type_icon(dmg_type)
+func set_creature_dmg_type(dmg_type: DMG_TYPE):
+	status.dmg_type = dmg_type
+	if dmg_type_icon and dmg_type_icon.ready:
+		var texture = load(CREATURE_DMG_TYPE_ICONS[dmg_type])
+		dmg_type_icon.texture = texture
 
 
 func update_atk_label():
@@ -158,12 +146,6 @@ func update_magical_armor_label():
 			Utils.set_label_font_color(magical_armor_label, Color.GREEN)
 
 
-func set_dmg_type_icon(dmg_type: DMG_TYPE):
-	if(dmg_type_icon and dmg_type_icon.ready):
-		var texture = load(CREATURE_DMG_TYPE_ICONS[dmg_type])
-		dmg_type_icon.texture = texture
-		
-	
 func do_direct_damage(dmg_value: int):
 	status.modify_health_by(-dmg_value)
 	popup.popup_damage(dmg_value)
@@ -226,8 +208,8 @@ func check_after_damage(dmg: Damage):
 		# global event to listeners
 		# card slot
 		# void
+		destroy()
 		event_bus.on_card_destroyed.emit(self)
-		destroy_card()
 		
 
 # This creature takes damage
@@ -310,7 +292,6 @@ func check_after_attack(target: Card, atk_type: Enum.CREATURE_ATK_TYPE):
 	if atk_type == Enum.CREATURE_ATK_TYPE.BASIC and passive_skills and passive_skills.basic_atk_effect:
 		passive_skills.basic_atk_effect.execute(target)
 		
-
 
 # This creature attacks others cards 
 func attack(target: CreatureCard, atk_type: Enum.CREATURE_ATK_TYPE = Enum.CREATURE_ATK_TYPE.BASIC):

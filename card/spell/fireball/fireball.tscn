@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdp3vgd3p4vlx"]
+
+[ext_resource type="PackedScene" uid="uid://clferrsv5pppc" path="res://card/spell/spell.tscn" id="1_rhsum"]
+[ext_resource type="Script" uid="uid://ddm0cj01cexim" path="res://card/spell/fireball/fireball.gd" id="2_ejum7"]
+
+[node name="Fireball" instance=ExtResource("1_rhsum")]
+script = ExtResource("2_ejum7")
+card_name = null
+soul_cost = null
+variation = null
+rarity = null
+desc = null
+img_url = null
+can_be_destroyed = null
+is_destroyed = null

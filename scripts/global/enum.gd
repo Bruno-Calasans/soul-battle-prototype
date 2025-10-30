@@ -121,3 +121,17 @@ enum DUELIST_TYPE {
 	PLAYER,
 	ENEMY
 }
+
+# spell
+enum SPELL_TYPE {
+	AREA,
+	ARTIFACT,
+	CURSE,
+	BLESS,
+}
+
+const SPELL_TYPE_ICONS = {
+	SPELL_TYPE.AREA: "res://assets/spell/type_icon/area.png",
+	SPELL_TYPE.ARTIFACT: "res://assets/spell/type_icon/artifact.png",
+	SPELL_TYPE.CURSE: "res://assets/spell/type_icon/curse.png"
+}

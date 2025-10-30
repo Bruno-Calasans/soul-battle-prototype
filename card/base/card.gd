@@ -20,9 +20,9 @@ const CARD_RARITY_NAMES = Enum.CARD_RARITY_NAMES
 @export var img_url: String = ''
 @export var can_be_destroyed: bool = true
 @export var is_destroyed: bool = false
+
 var position_in_hand: Vector2
 var duelist_type: Enum.DUELIST_TYPE
-
 
 # Visual
 @onready var name_label: Label = $CardTexture/CardExtraInfoContainer/CardNamePanel/CardNameLabel
@@ -36,17 +36,14 @@ var duelist_type: Enum.DUELIST_TYPE
 @onready var card_animation: AnimationPlayer = $CardAnimation
 
 
-func set_card_name(card_name: String):
-	self.card_name = card_name
-	
-	
-func update_card_name_label():
+func set_card_name(new_card_name: String):
+	card_name = new_card_name
 	if(name_label and name_label.ready):
-		name_label.set_text(card_name)
+		name_label.set_text(new_card_name)
 	
 	
-func update_card_tags(tags: Array[String]):
-	if(tag_label and tag_label.ready):
+func set_card_tags(tags: Array[String]):
+	if tag_label and tag_label.ready:
 		var formatedText = ''
 		for tag in tags:
 			formatedText += tag + ' '
@@ -54,36 +51,39 @@ func update_card_tags(tags: Array[String]):
 		tag_label.set_text(formatedText)
 		
 	
-func set_card_desc(desc: String):
-	self.desc = desc
-	
-	
-func update_card_desc_label():
+func set_card_desc(card_desc: String):
+	desc = card_desc
 	if(desc_label and desc_label.ready):
-		desc_label.set_text(desc)
+		desc_label.set_text(card_desc)
 		
-
-func update_card_soul_cost_label():
-	if(soul_cost_label and soul_cost_label.ready):
-		soul_cost_label.set_text(str(soul_cost))
-
 		
 func set_soul_cost(cost: int):
 	soul_cost = max(0, cost)
-		
+	if soul_cost_label and soul_cost_label.ready:
+		soul_cost_label.set_text(str(soul_cost))
 
-func update_card_img():
-	if(img and img.ready):
-		img.texture = load(img_url)
-	
 	
 func set_card_img(url: String):
 	img_url = url  
-	
+	if img and img.ready:
+		img.texture = load(img_url)
 		
-func update_type_icon(url: String):
-	if(type_icon and type_icon.ready):
+		
+func set_type_icon(url: String):
+	if type_icon and type_icon.ready:
 		type_icon.texture = load(url)
+
+
+func set_card_texture(url: String):
+	if card_texture and card_texture.ready:
+		card_texture.texture = load(url)
+
+
+func destroy():
+	if can_be_destroyed and not is_destroyed:
+		print(card_name + ' is destroyed')
+		is_destroyed = true
+		#queue_free()
 
 
 func _on_card_area_mouse_entered() -> void:
@@ -92,10 +92,3 @@ func _on_card_area_mouse_entered() -> void:
 
 func _on_card_area_mouse_exited() -> void:
 	event_bus.card_hovered_off.emit(self)
-
-
-func destroy_card():
-	if can_be_destroyed and not is_destroyed:
-		print(card_name + ' is destroyed')
-		is_destroyed = true
-		queue_free()
